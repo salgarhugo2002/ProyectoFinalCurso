@@ -1,0 +1,279 @@
+/* Importació dels tipus de lletra de Google fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Lilita+One&display=swap');
+
+/* Configuració de la imatge de fons de la pàgina. */
+body{
+  background-image: url("./Imagenes/background.gif") !important;
+  background-size: cover;
+}
+
+/* El CSS per a la capçalera. */
+#cabecera{
+  background-color: black;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  background-image: url('./Imagenes/cabecera.jpg'); 
+  background-size: cover;
+  height: 100px;
+}
+
+/* Centrant el text i afegint un marge a la part inferior a les classes 'container-fluid'. */
+.container-fluid{
+ text-align: center;
+ margin: auto;
+ margin-bottom: 50px;
+}
+
+/* Afegeix un marge de 5 píxels a la part superior de les classes container. */
+.container{
+  margin-top: 5px;
+}
+
+/* Establim l'alçada mínima de la fila a 300 píxels. */
+.row{
+  min-height: 300px;
+}
+
+/* Configurem l'amplada mínima de les columnes al 33% de la pantalla, l'alçada mínima a 300px, 
+els-hi posem una vora de 5px i un color, creem una ombra sota les columnes de color negre i una mida de 0px 10px 10px, 
+finalment, afegim un color de fons a cada columna. */
+.col-md-3{
+  min-width: 33%;
+  min-height: 300px;
+  display: block;
+  border: 5px solid rgb(97, 41, 41);
+  text-align: center;
+  box-shadow: 0px 10px 10px black;
+  background-color: rgb(190, 238, 186);
+}
+
+/*Alinea el text a l'esquerra i trencant les paraules quan siguin massa llargues. (Representen les tasques)*/
+.col-md-3 > ol{
+  text-align:justify;
+  word-wrap: break-word;
+}
+
+/* Afegeix un marge de 10 píxels a la part superior de la quadrícula. */
+.grid{
+  margin-top:10px;
+}
+
+/* El CSS per al títol de les tasques. */
+.title{
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid black;
+  background-color: #7e57c2;
+}
+
+/* El CSS per a les tasques. */
+.task{
+  background-color: #7e57c2;
+  padding: 1rem;
+  border: 1px solid #000;
+  border: 1px solid #000;
+  cursor: move;
+}
+
+/* Afegeix una vora a la part superior al primer fill de la tasca de classe. */
+.task:first-child{
+  border-top: 1px solid #000;
+}
+
+/* Elimina la vora inferior de l'última tasca. */
+.task:last-child{
+  border-bottom: none;
+}
+
+
+/*-< CSS PER EL TITOL TODO >-*/
+div#divToDo > h1{
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+div#divToDo > h1{
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+
+div#divToDo > h1:before{
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+
+div#divToDo > h1:after{
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+
+
+/*-< CSS PER EL TITOL DOING >-*/
+
+div#divDoing > h1{
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+div#divDoing > h1{
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+div#divDoing > h1:before{
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+div#divDoing > h1:after{
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+
+
+/*-< CSS PER EL TITOL DONE >-*/
+
+div#divDone > h1{
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+div#divDone > h1{
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+div#divDone > h1:before{
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+div#divDone > h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+
+
+/*-< CSS PER ELS BOTONS >-*/
+
+/* Una classe que s'utilitza per dissenyar els botons. */
+.btns{
+  border-radius: 5px;
+  background-color: #2f89fc;
+  font-size: 20px;
+  width: 120px;
+}
+
+/* Canviar el color de fons del botó a verd i el color del text a blanc quan el ratolí està
+sobre el botó. */
+.btn:hover{
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.btn-light{
+  background-color: #000 !important;
+  float: right;
+  position: relative;
+  bottom: 7px;
+  color: #2f89fc !important;
+}
+
+/* Canviar el color del botó quan el ratolí està sobre el botó. */
+.btn-light:hover{
+  color: pink !important;
+}
+
+
+/*-< CSS PER LA PAPERERA >-*/
+
+/* Configuració de la mida de la paperera. */
+#papelera{
+  min-width: 120px;
+  min-height: 100px;
+  max-width: 120px;
+  max-height: 100px;
+  margin-top: 15px;
+}
+
+/* Transició que s'aplica a la imatge de la paperera. */
+#img-papelera{
+  transition: 0.5s;
+}
+
+/* Canviar el color del text a vermell quan el ratolí està sobre la imatge. */
+#img-papelera:hover{
+  color: red;
+}
+
+
+/* Estilitza la part ressaltada del document per part de l'usuari a un color transparent. */
+::selection{
+  background-color: #4c90af33;
+}
