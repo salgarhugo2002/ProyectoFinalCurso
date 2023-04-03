@@ -1,5 +1,3 @@
-const responsableModel = require("./models/responsable");
-const tascaModel = require("./models/tasques");
 const { response } = require('express');
 
 module.exports = (app) => {
