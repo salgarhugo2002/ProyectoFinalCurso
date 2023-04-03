@@ -19,7 +19,7 @@ db.once("open", ()=>{
     console.log("Connected successfully");
 });
 
-app.use(express.static(path.join(__dirname,'www/login')));
+app.use(express.static(path.join(__dirname,'www/main')));
 require('./api')(app);
 
 app.listen(port, () => {
