@@ -38,13 +38,13 @@ class User {
 
 
 class Company extends User {
-    constructor(calles, numeroCalles, municipios, codigoPostals, nifs, teachers) {
+    constructor(ids, names, emails, passwords, calles, numeroCalles, municipios, codigoPostals, nifs) {
+        super(ids, names, emails, passwords)
         this.calle = calles
         this.numeroCalle = numeroCalles
         this.municipio = municipios
         this.codigoPostal = codigoPostals
         this.nif = nifs
-        this.teachers = []
     }
 
     getCalle() {
@@ -83,3 +83,51 @@ class Company extends User {
 
 
 }
+
+class EducativeCenter extends User {
+    constructor(ids, names, emails, passwords, calles, numeroCalles, municipios, codigoPostals, identificadors) {
+        super(ids, names, emails, passwords)
+        this.calle = calles
+        this.numeroCalle = numeroCalles
+        this.municipio = municipios
+        this.codigoPostal = codigoPostals
+        this.identificador = identificadors
+    }
+
+    getCalle() {
+        return this.calle
+    }
+    setCalle(x) {
+        this.calle = x
+    }
+
+    getNumeroCalle() {
+        return this.numeroCalle
+    }
+    setNumeroCalle(x) {
+        this.numeroCalle = x
+    }
+
+    getMunicipio() {
+        return this.municipio
+    }
+    setMunicipio(x) {
+        this.municipio = x
+    }
+
+    getCodigoPostal() {
+        return this.codigoPostal
+    }
+    setCodigoPostal(x) {
+       this.codigoPostal = x
+    }
+
+    getIdentificador() {
+        return this.identificador
+    }
+    setIdentificador(x) {
+        this.identificador = x;
+    }
+}
+
+
