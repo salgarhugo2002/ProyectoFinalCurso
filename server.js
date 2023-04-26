@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://cluster0.8mclcnb.mongodb.net/myFirstDatabase',
+mongoose.connect('mongodb+srv://ivan:2002@cluster0.8mclcnb.mongodb.net/?retryWrites=true&w=majority',
 {
     useNewUrlParser: true,
     useUnifiedTopology: true

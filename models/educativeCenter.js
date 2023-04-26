@@ -45,6 +45,6 @@ const EducativeCenterSchema = new mongoose.Schema({
 }
 );
 
-const EducativeC = mongoose.model("user", EducativeCenterSchema);
+const EducativeC = mongoose.model("educativeCenter", EducativeCenterSchema);
 mongoose.set('strictQuery', false);
 module.exports = EducativeC;
