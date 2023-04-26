@@ -6,10 +6,16 @@ module.exports = (app) => {
 
 
      
-    app.get('/main', async (req, res) => {
+    app.get('/', async (req, res) => {
         
-       res.render("index",{titulo: "mi titulo dinamico"})
+       res.render("login",{titulo: "mi titulo dinamico"})
     });
+
+    app.get('/register', async (req, res) => {
+        
+        res.render("register",{titulo: "mi titulo dinamico"})
+     });
+ 
 
     
     

@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://ivan:2002@cluster0.8mclcnb.mongodb.net',
+mongoose.connect('mongodb+srv://cluster0.8mclcnb.mongodb.net/myFirstDatabase',
 {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -19,7 +19,7 @@ db.once("open", ()=>{
     console.log("Connected successfully");
 });
 
-app.use(express.static(path.join(__dirname,'www/login')));
+app.use(express.static(path.join(__dirname,'www')));
 require('./api')(app);
 
 app.listen(port, () => {
