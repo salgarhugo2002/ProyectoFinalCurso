@@ -69,13 +69,14 @@ module.exports = (app) => {
 
 
 
-   app.post('/register/user', async (req, res) => {
-      const user = new User(req.body);
+   app.post('/register/user',async (req, res) => {
+      const company = new User(req.body);
 
       try {
-         await user.save();
+         await company.save();
          const respon = await User.find({});
          res.status(200).send(respon);
+        
       } catch (error) {
          res.status(500).send(error);
       }
