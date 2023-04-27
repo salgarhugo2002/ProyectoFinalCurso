@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
     id: {
         type: Number,
-        required: true,
+        required: false,
         default: 1
     },
-    name: {
+    username: {
         type: String,
         required: true
     },
@@ -26,5 +26,5 @@ const UserSchema = new mongoose.Schema({
 );
 
 const User = mongoose.model("user", UserSchema);
-mongoose.set('strictQuery', false);
+
 module.exports = User;
