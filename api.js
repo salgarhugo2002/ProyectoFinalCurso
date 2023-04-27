@@ -1,7 +1,8 @@
-const { response } = require('express');
+const { response, json } = require('express');
 const EducativeC = require('./models/educativeCenter');
 const Company = require('./models/company');
 const User = require('./models/user');
+const bcrypt = require('bcrypt')
 
 module.exports = (app) => {
    app.set('view engine', 'ejs');
@@ -70,10 +71,30 @@ module.exports = (app) => {
 
 
    app.post('/register/user',async (req, res) => {
-      const company = new User(req.body);
+      const user = new User(req.body);
 
+      let pas = ""
+      let pas2 = ""
+      let haseado = ""
+
+      for (const key in user) {
+    
+  
+         if (key == "password") {
+             pas = user[key]
+         }
+         if (key == "repeatpassword") {
+             pas2 = user[key]
+         }
+         
+     }
+     if (pas == pas2) {
+      user.password = await bcrypt.hash(pas,8)
+      user.repeatpassword = await bcrypt.hash(pas2,8)
+     }
+     
       try {
-         await company.save();
+         await user.save();
          const respon = await User.find({});
          res.status(200).send(respon);
         

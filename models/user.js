@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    repeatpassword: {
+        type: String,
+        required: true
     }
     
 },

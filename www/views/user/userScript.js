@@ -4,27 +4,36 @@
 
 const miFormulario = document.getElementById("formulario");
 
-miFormulario.addEventListener("submit", function(event) {
-  event.preventDefault(); // evita que el formulario se envíe por defecto
+miFormulario.addEventListener("submit", function (event) {
+    event.preventDefault(); // evita que el formulario se envíe por defecto
 
-  const formData = new FormData(miFormulario); // crea un objeto FormData con los datos del formulario
-  const jsonData = {};
+    const formData = new FormData(miFormulario); // crea un objeto FormData con los datos del formulario
+    const jsonData = {};
 
-  for (const [key, value] of formData.entries()) {
-    jsonData[key] = value;
-  }
+    for (const [key, value] of formData.entries()) {
+        jsonData[key] = value;
 
-  const jsonString = JSON.stringify(jsonData); // convierte el objeto a una cadena JSON
 
-  console.log(jsonString); // muestra la cadena JSON en la consola (puede ser enviada al servidor)
+    }
+   
+    const jsonString = JSON.stringify(jsonData); // convierte el objeto a una cadena JSON
 
-  fetch('http://localhost:3000/register/user',
-        {
-            method: "POST",
-            body: jsonString,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        location.href ='/';
+    console.log(jsonString); // muestra la cadena JSON en la consola (puede ser enviada al servidor)
+
+
+
+
+    fetch('http://localhost:3000/register/user',
+    {
+        method: "POST",
+        body: jsonString,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+
+
+
+
 });
