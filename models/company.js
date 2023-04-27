@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const CompanySchema = new mongoose.Schema({
     id: {
         type: Number,
-        required: true,
+        required: false,
         default: 1
     },
     name: {
@@ -34,15 +34,19 @@ const CompanySchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    numeroTelefono: {
+        type: Number,
+        required: true
+    },
     nif: {
         type: String,
         required: true
     }
-    
+
 },
-{
-    versionKey:false
-}
+    {
+        versionKey: false
+    }
 );
 
 const Company = mongoose.model("company", CompanySchema);

@@ -82,6 +82,19 @@ module.exports = (app) => {
       }
    });
 
+   app.post('/register/company',async (req, res) => {
+      const company = new Company(req.body);
+
+      try {
+         await company.save();
+         const respon = await Company.find({});
+         res.status(200).send(respon);
+        
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
+
 
 }
 
