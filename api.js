@@ -1,8 +1,9 @@
-const { response, json } = require('express');
+const { response } = require('express');
 const EducativeC = require('./models/educativeCenter');
 const Company = require('./models/company');
 const User = require('./models/user');
 const bcrypt = require('bcrypt')
+const bodyparser = require('body-parser');
 
 module.exports = (app) => {
    app.set('view engine', 'ejs');
@@ -70,52 +71,76 @@ module.exports = (app) => {
 
 
 
-   app.post('/register/user',async (req, res) => {
+   app.post('/register/user', async (req, res) => {
       const user = new User(req.body);
 
       let pas = ""
       let pas2 = ""
-      let haseado = ""
+
 
       for (const key in user) {
-    
-  
+
+
          if (key == "password") {
-             pas = user[key]
+            pas = user[key]
          }
          if (key == "repeatpassword") {
-             pas2 = user[key]
+            pas2 = user[key]
          }
-         
-     }
-     if (pas == pas2) {
-      user.password = await bcrypt.hash(pas,8)
-      user.repeatpassword = await bcrypt.hash(pas2,8)
-     }
-     
+
+      }
+      if (pas == pas2) {
+         user.password = await bcrypt.hash(pas, 8)
+         user.repeatpassword = await bcrypt.hash(pas2, 8)
+      }
+
       try {
          await user.save();
          const respon = await User.find({});
          res.status(200).send(respon);
-        
+
       } catch (error) {
          res.status(500).send(error);
       }
    });
 
-   app.post('/register/company',async (req, res) => {
+   app.post('/register/company', async (req, res) => {
       const company = new Company(req.body);
 
       try {
          await company.save();
          const respon = await Company.find({});
          res.status(200).send(respon);
-        
+
       } catch (error) {
          res.status(500).send(error);
       }
    });
 
+
+
+
+   app.post('/users', async (req, res) => {
+      try {
+         const user = new User(req.body);
+         let email = user.email
+         let buscar = await User.findOne({ email })
+         if (buscar) {
+            const isMatch = await bcrypt.compare(user.password,buscar.password);
+            if (!isMatch) {
+               console.log("Email o contraseña incorrectos")
+            }else{
+               console.log("ENCONTRADOOOOOOOOOOO")
+            }
+         }
+         else {
+            console.log("no")
+         }
+      } catch (err) {
+         console.error(err);
+         res.status(500).json({ error: 'Internal Server Error' });
+      }
+   });
 
 }
 
