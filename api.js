@@ -13,7 +13,7 @@ module.exports = (app) => {
 
    app.get('/', async (req, res) => {
 
-      res.render("login", { titulo: "mi titulo dinamico" })
+      res.render("user/login", { titulo: "mi titulo dinamico" })
    });
 
    app.get('/register', async (req, res) => {
