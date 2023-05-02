@@ -172,6 +172,10 @@ module.exports = (app) => {
    });
 
 
+   app.get('/profile' , isAuthenticated,async (req,res) =>{
+      res.render("user/profile", { titulo: "profile" })
+   })
+
    
 
 }
