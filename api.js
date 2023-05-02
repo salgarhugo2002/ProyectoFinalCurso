@@ -125,7 +125,7 @@ module.exports = (app) => {
    }))
 
    app.get('/', async (req, res) => {
-
+      
       res.render("login", { titulo: "Login" })
    });
 
