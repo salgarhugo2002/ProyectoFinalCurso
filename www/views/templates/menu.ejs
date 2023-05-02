@@ -36,19 +36,38 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav list-inline">
+        <% if (user) { %>
+              
+          <ul class="navbar-nav list-inline">
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-             <b>Login</b> 
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">
-             <b>Register</b> 
-            </a>
-          </li>
-        </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+               <b>Profile</b> 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">
+               <b>logout</b> 
+              </a>
+            </li>
+          </ul>
+            
+        <% } else { %>
+          <ul class="navbar-nav list-inline">
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+               <b>Login</b> 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">
+               <b>Register</b> 
+              </a>
+            </li>
+          </ul>
+        <% }%>
+        
       </div>
     </div>
   </nav>

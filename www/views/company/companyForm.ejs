@@ -1,38 +1,66 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Registro</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="/estilos/companyform.css">
+<%- include("../templates/cabecera") %>
+
+
   </head>
-  <body>
-    <div class="main-block">
-      <div class="left-part">
-        <i class="fas fa-graduation-cap"></i>
-        <h1>Da de alta tu empresa</h1>
 
+
+<body style="background-color: rgb(187, 190, 190);">
+  <%-include("../templates/menu")%>
+  <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-1" tabindex="-1" role="dialog" id="modalSignin">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-4 shadow">
+        <div class="modal-header p-5 pb-4 border-bottom-0">
+          <h1 class="fw-bold mb-0 fs-2">Register</h1>
+          
+        </div>
+  
+        <div class="modal-body p-5 pt-0">
+          <form action="/register/user" method="post" id="formulario">
+            <div class="form-floating mb-1">
+              <input type="text" class="form-control rounded-3" id="name" name="name" placeholder="Ivan Esteban" required>
+              <label for="name">Name</label>
+              
+            </div>
+            <div class="form-floating mb-1">
+              <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="email" required>
+              <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="password" required>
+              <label for="password">Password</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="tel" class="form-control rounded-3" id="numeroTelefono" name="numeroTelefono" placeholder="numeroTelefono" required>
+              <label for="numeroTelefono">Número de teléfono</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="text" class="form-control rounded-3" id="calle" name="calle" placeholder="calle" required>
+              <label for="calle">Calle</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="number" class="form-control rounded-3" id="numeroCalle" name="numeroCalle" placeholder="calle" required>
+              <label for="calle">Nº calle</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="text" class="form-control rounded-3" id="municipio" name="municipio" placeholder="municipio" required>
+              <label for="municipio">Municipio</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="number" class="form-control rounded-3" id="codigoPostal" name="codigoPostal" placeholder="codigoPostal" required>
+              <label for="municipio">CP</label>
+            </div>
+            <div class="form-floating mb-1">
+              <input type="number" class="form-control rounded-3" id="nif" name="nif" placeholder="nif" required>
+              <label for="municipio">Nif</label>
+            </div>
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
+          </form>
+        </div>
       </div>
-      <form action="/" id="formulario">
-        <div class="title">
-          <i class="fas fa-pencil-alt"></i> 
-          <h2>Register here</h2>
-        </div>
-        <div class="info">
-          <input  type="text" name="name" placeholder="Nombre de la empresa">
-          <input type="text" name="email" placeholder="Email">
-          <input type="pass" name="password" id="password" placeholder="Password">
-          <input type="number" name="numeroTelefono" placeholder="Numero Telefono" maxlength="9">
-          <input type="text" name="calle" placeholder="Calle">
-          <input type="number" name="numeroCalle" placeholder="Numero Calle ">
-          <input type="text" name="municipio" placeholder="Municipio">
-          <input type="number" name="codigoPostal" placeholder="Codigo Postal">
-          <input type="text" name="nif" placeholder="NIF">
-        </div>
-        <button type="submit" href="/">Submit</button>
-      </form>
     </div>
-  </body>
-
-  <script src="/views/company/companyscript.js"></script>
+  </div>
+      <script src="/views/company/companyscript.js"></script>
+</body>
 </html>
+
+

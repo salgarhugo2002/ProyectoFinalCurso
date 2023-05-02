@@ -1,26 +1,29 @@
 const miFormulario = document.getElementById("formulario");
 
-miFormulario.addEventListener("submit", function (event) {
+miFormulario.addEventListener("submit", async function (event) {
     event.preventDefault(); // evita que el formulario se envíe por defecto
 
     const formData = new FormData(miFormulario); // crea un objeto FormData con los datos del formulario
     const jsonData = {};
 
     for (const [key, value] of formData.entries()) {
+        jsonData['id'] = await idmax()
         jsonData[key] = value;
     }
 
     const jsonString = JSON.stringify(jsonData); // convierte el objeto a una cadena JSON
 
     console.log(jsonString); // muestra la cadena JSON en la consola (puede ser enviada al servidor)
+    
+  
+    
+    let username = document.getElementById('username')
+    let email = document.getElementById('email')
+    let password = document.getElementById('password')
+    let repeatpassword = document.getElementById('repeatpassword')
 
 
-
-    let password = document.getElementById('password').value
-    let repeatpassword = document.getElementById('repeatpasword').value
-
-
-    if (password == repeatpassword) {
+    if (password.value == repeatpassword.value) {
 
         fetch('http://localhost:3000/register/user',
             {
@@ -30,7 +33,12 @@ miFormulario.addEventListener("submit", function (event) {
                     'Content-Type': 'application/json'
                 }
             })
-        location.href = "/"
+            username.value = ""
+            email.value = ""
+            password.value = ""
+            repeatpassword.value = ""
+        //  location.href = "/"
+       
     } else {
         let divMessage = document.getElementById('password-msg')
         let node = document.createElement('div')
@@ -45,3 +53,26 @@ miFormulario.addEventListener("submit", function (event) {
         divMessage.appendChild(node)
     }
 });
+
+
+function returnMaxId() {
+    return fetch('http://localhost:3000/user/idmax')
+        .then((res) => res.json());
+        
+}
+
+
+async function idmax() {
+
+    const response = await returnMaxId();
+
+    try {
+
+        let abc = response[0].id;
+        return abc + 1;
+    } catch (error) {
+        console.log("no hi ha cap responsable a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
+    }
+}
+
+

@@ -1,4 +1,3 @@
-
 const miFormulario = document.getElementById("formulario");
 
 miFormulario.addEventListener("submit", function(event) {

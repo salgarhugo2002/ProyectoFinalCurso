@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require('bcrypt')
 const CompanySchema = new mongoose.Schema({
     id: {
         type: Number,
@@ -49,6 +49,18 @@ const CompanySchema = new mongoose.Schema({
     }
 );
 
+
+CompanySchema.pre('save', async function (next) {
+    try {
+        const hashedPassword = await bcrypt.hash(this.password, 8)
+        this.password = hashedPassword
+        next()
+    } catch (error) {
+        next(error)
+    }
+
+})
+
 const Company = mongoose.model("company", CompanySchema);
-mongoose.set('strictQuery', false);
+
 module.exports = Company;

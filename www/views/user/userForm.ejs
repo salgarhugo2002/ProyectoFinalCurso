@@ -1,40 +1,43 @@
 <%- include("../templates/cabecera") %>
 
-<link href="/estilos/alumnostyle.css" rel="stylesheet">
+
   </head>
 
 
-  <body>
-    
-    <%- include("../templates/menu") %>
-<main class="form-signin w-100 m-auto">
-  <br><br>
-  <form action="/register/user" method="post" id="formulario">
-    <h1 class="h3 mb-3 fw-normal">Registrar usuario</h1>
-
-    <div class="form-floating">
-      <input type="text" class="form-control" id="username" name="username" placeholder="Full name" required>
-      <label for="floatingInput">Full name</label>
+<body style="background-color: rgb(187, 190, 190);">
+  <%-include("../templates/menu")%>
+  <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-4 shadow">
+        <div class="modal-header p-5 pb-4 border-bottom-0">
+          <h1 class="fw-bold mb-0 fs-2">Register</h1>
+          
+        </div>
+  
+        <div class="modal-body p-5 pt-0">
+          <form action="/register/user" method="post" id="formulario">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control rounded-3" id="username" name="username" placeholder="Ivan Esteban" required>
+              <label for="username">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="email" required>
+              <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="password" required>
+              <label for="password">Password</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control rounded-3" id="repeatpassword" name="repeatpassword" placeholder="repeatpassword" required>
+              <label for="repeatpassword">Repeat password</label>
+            </div>
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="form-floating">
-      <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
-      <label for="floatingPassword">Email</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
-      <label for="floatingInput">Password</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="repeatpasword" name="repeatpassword" placeholder="repeat password" required>
-      <label for="floatingInput">Repeat password</label>
-    </div>
-    
-    <div id="password-msg"></div>
-
-    <button class="w-100 btn btn-lg btn-primary" type="submit" id="enviar">Sign in</button>
-  </form>
-</main>
-
-<script src="/views/user/userScript.js"></script>
-    
-  </body>
+  </div>
+      <script src="/views/user/userScript.js"></script>
+</body>
+</html>
