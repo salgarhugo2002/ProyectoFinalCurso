@@ -32,7 +32,7 @@ module.exports = (app) => {
       if (req.isAuthenticated()) {
          return next()
       }
-      res.redirect('/')
+      res.redirect('/user/login')
    }
    passport.serializeUser(function (user, done) {
       done(null, user.id)
@@ -56,7 +56,7 @@ module.exports = (app) => {
       if (!bcrypt.compareSync(password, user.password)) {
          return done(null, false, req.flash('signinMessage', "Contraseña incorrecta"))
       }
-      done(null, user)
+         done(null, user)
    }))
 
 
@@ -119,14 +119,19 @@ module.exports = (app) => {
 
 
    app.post('/login/user', passport.authenticate('local-signin', {
-      successRedirect: "/register",
-      failureRedirect: "/",
+      successRedirect: "/",
+      failureRedirect: "/user/login",
       passReqToCallback: true
    }))
 
-   app.get('/', async (req, res) => {
+   app.get('/',async (req, res) => {
       
-      res.render("login", { titulo: "Login" })
+      res.render("user/home", { titulo: "Home" })
+   });
+
+   app.get('/user/login', async (req, res) => {
+      
+      res.render("user/login", { titulo: "Login" })
    });
 
    app.get('/register', async (req, res, next) => {
