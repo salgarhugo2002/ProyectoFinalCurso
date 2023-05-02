@@ -34,9 +34,17 @@
                 </div>
                 <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
             </div>
+            <% if (user) { %>
             <div class="navbar-nav ms-auto">
-                <a href="#" class="nav-item nav-link">Login</a>
+                <a href="#" class="nav-item nav-link">Profile</a>
+                <a href="/logout" class="nav-item nav-link">Logout</a>
             </div>
+            <% } else { %>
+              <div class="navbar-nav ms-auto">
+                <a href="/" class="nav-item nav-link">Login</a>
+                <a href="/register" class="nav-item nav-link">Register</a>
+            </div>
+            <% } %>
         </div>
     </div>
 </nav>
