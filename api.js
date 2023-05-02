@@ -13,6 +13,7 @@ module.exports = (app) => {
    app.use(express.urlencoded({ extended: false }))
    app.use(cookieParser('superSecreto'))
    app.use(session({
+      name: 'usersesion',
       secret: 'superSecreto',
       resave: true,
       saveUninitialized: true
