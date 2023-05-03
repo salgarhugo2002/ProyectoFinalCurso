@@ -52,7 +52,9 @@ module.exports = (app) => {
 
 
    function isAuthenticated(req, res, next) {
-      if (req.isAuthenticated()) {
+     
+      if (req.isAuthenticated(req,res,next)) {
+         
          return next()
       }
       res.redirect('/user/login')
@@ -282,15 +284,22 @@ module.exports = (app) => {
 
 
    app.get('/profile', isAuthenticated, async (req, res) => {
-      res.render("user/profile", { titulo: "profile" })
+      
+      const image = await Image.find()
+      
+      res.render("user/profile", { titulo: "profile",image:image })
    })
 
-   app.get('/upload', (req, res) => {
+   app.get('/upload', isAuthenticated,(req, res) => {
       res.render("imageForm", { titulo: "Image upload" })
    })
 
    app.post('/upload', isAuthenticated,async (req, res) => {
       const image = new Image()
+      if (image.title == null && image.description == null) {
+         image.title = "Foto_de_perfil"
+         image.description ="Foto_de_perfil"
+      }else
       image.title = req.body.title
       image.description = req.body.description
       image.filename = req.file.filename
@@ -298,8 +307,9 @@ module.exports = (app) => {
       image.originalname = req.file.originalname
       image.mimetype = req.file.mimetype
       image.size = req.file.size
+      console.log(image)
       await image.save()
-      res.redirect("/verfoto")
+      res.redirect("/image/"+image.id)
    })
 
    app.get('/image/:id', isAuthenticated,async(req, res) => {
@@ -316,8 +326,11 @@ module.exports = (app) => {
    app.get('/image/:id/delete',isAuthenticated,async (req, res) => {
       const {id} = req.params
       const image = await Image.findByIdAndDelete(id)
-      await unlink(path.resolve('./www' + image.path))
-      res.render("./user/profile",{titulo: "userhome"})
+      if (await unlink(path.resolve('./www' + image.path))) {
+         res.redirect('/')
+      }else{
+         res.redirect('/')
+      }
    })
 
 }

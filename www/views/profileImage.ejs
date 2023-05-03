@@ -7,7 +7,7 @@
             <div class="col-md-4 offset-md-4">
                 <div class="card">
                     <img src="<%= image.path %>" class="card-img-top" alt="">
-                    <div class="cars-body">
+                    <div class="card-body">
                         <h5 class="card-title">
                             <%= image.title %>
                         </h5>
@@ -17,7 +17,8 @@
                         <p class="card-text">
                             <%= format(image.created_at) %>
                         </p>
-                        <a href="/image/<%= image._id %>/delete" class="btn btn-danger">Delete Image</a>
+                        <a href="/profile" class="btn btn-primary">Ir al perfil</a>
+                        <a href="/image/<%= image._id %>/delete"><button type="submit" class="btn btn-danger">Borrar imatge</button></a>
                     </div>
                 </div>
             </div>
