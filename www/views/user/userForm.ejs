@@ -32,12 +32,20 @@
               <input type="password" class="form-control rounded-3" id="repeatpassword" name="repeatpassword" placeholder="repeatpassword" required>
               <label for="repeatpassword">Repeat password</label>
             </div>
+            <% if (signupMessage.length > 0) { %>
+              
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong><%= signupMessage %></strong> 
+                
+              </div>
+                
+            <% } %>
             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-      <script src="/views/user/userScript.js"></script>
+      <!-- <script src="/views/user/userScript.js"></script> -->
 </body>
 </html>
