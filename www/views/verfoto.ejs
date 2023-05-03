@@ -15,8 +15,8 @@
                
                 <% images.forEach(function(image){ %>
                     <div class="card">
-                        <img src="<%= image.path %>" class="card-img-top" alt="">
-                        <div class="cars-body">
+                        <img src="<%= image.path %>" class="card-img-top" width="300px" alt="">
+                        <div class="card-body">
                             <h5 class="card-title"><%= image.title %></h5>
                             <p class="card-text"><%= image.description %></p>
                             <p class="card-text"><%= format(image.created_at) %></p>
