@@ -57,7 +57,7 @@ module.exports = (app) => {
       if (!bcrypt.compareSync(password, user.password)) {
          return done(null, false, req.flash('signinMessage', "Contraseña incorrecta"))
       }
-         done(null, user)
+      done(null, user)
    }))
 
 
@@ -125,13 +125,13 @@ module.exports = (app) => {
       passReqToCallback: true
    }))
 
-   app.get('/',async (req, res) => {
-      
+   app.get('/', async (req, res) => {
+
       res.render("user/home", { titulo: "Home" })
    });
 
    app.get('/user/login', async (req, res) => {
-      
+
       res.render("user/login", { titulo: "Login" })
    });
 
@@ -140,11 +140,11 @@ module.exports = (app) => {
    });
 
    app.get("/logout", (req, res, next) => {
-      req.logout(function(err){
+      req.logout(function (err) {
          if (err) throw err;
          res.redirect('/');
-       });
-      
+      });
+
    })
 
    app.get('/register/educativecenter', async (req, res) => {
@@ -178,11 +178,11 @@ module.exports = (app) => {
    });
 
 
-   app.get('/profile' , isAuthenticated,async (req,res) =>{
+   app.get('/profile', isAuthenticated, async (req, res) => {
       res.render("user/profile", { titulo: "profile" })
    })
 
-   
+      
 
 }
 
