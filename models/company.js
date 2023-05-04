@@ -14,10 +14,6 @@ const CompanySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     calle: {
         type: String,
         required: true
@@ -41,6 +37,15 @@ const CompanySchema = new mongoose.Schema({
     nif: {
         type: String,
         required: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
+    ,
+    repeatpassword: {
+        type: String,
+        required: true
     }
 
 },
@@ -49,11 +54,13 @@ const CompanySchema = new mongoose.Schema({
     }
 );
 
-
 CompanySchema.pre('save', async function (next) {
     try {
-        const hashedPassword = await bcrypt.hash(this.password, 8)
-        this.password = hashedPassword
+        if (this.password == this.repeatpassword) {
+            const hashedPassword = await bcrypt.hash(this.password, 8)
+            this.password = hashedPassword
+            this.repeatpassword = hashedPassword
+        }
         next()
     } catch (error) {
         next(error)

@@ -2,6 +2,7 @@ const express = require('express');
 const EducativeC = require('./models/educativeCenter');
 const Company = require('./models/company');
 const User = require('./models/user');
+const Publication = require('./models/publications');
 const bcrypt = require('bcrypt')
 const session = require('express-session')
 const passport = require('passport');
@@ -229,6 +230,19 @@ module.exports = (app) => {
       passReqToCallback: true
    }))
 
+   app.post('/register/company', async (req, res) => {
+      const company = new Company(req.body);
+
+      try {
+         await company.save();
+         const respon = await Company.find({});
+         res.status(200).send(respon);
+
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
+
 
    app.post('/login/user', passport.authenticate('local-signin', {
       successRedirect: "/",
@@ -247,6 +261,29 @@ module.exports = (app) => {
       failureRedirect: "/register/company",
       passReqToCallback: true
    }))
+
+
+
+
+   app.post('/publication/create', async (req, res) => {
+      const publication = new Publication (req.body);
+
+      try {
+         await publication.save();
+         const respon = await Publication.find({});
+         res.status(200).send(respon);
+
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
+
+
+
+
+
+
+
 
    app.get('/', async (req, res) => {
 
@@ -286,6 +323,12 @@ module.exports = (app) => {
    app.get('/register/user', async (req, res) => {
 
       res.render("user/userForm", { titulo: "Register User" })
+   });
+
+
+   app.get('/company/home', async (req, res) => {
+
+      res.render("company/home", { titulo: "Home" })
    });
 
    app.get('/user/idmax', async (req, res) => {
