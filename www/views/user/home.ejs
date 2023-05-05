@@ -56,16 +56,21 @@
                         <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvas">Filtros</i>
                     </button>
-                    <div id="map" style="height: 500px; width: 500px; "></div>
-
-                    <div style="height: 25%; width: 25%;"></div>
+                    <div id="map" style="min-height: 500px; max-height: 500px;min-width: 500px; max-width: 500px; ">
+                    </div>
 
                 </div>
-                <div id="listado_publicaciones" class="row" style=" float: right;height: 500px; width: 500px; margin-top: 7%;">
+                <div id="listado_publicaciones" class="row"
+                    style=" float: right;height: 500px; width: 500px; margin-top: 7%;">
 
-                    
+
                 </div>
 
+                <div style="margin-top: 5%;">
+                    Estudios<select name="estudios" id="estudios"></select>
+                    Municipios<select name="municipios" id="municipios"></select>
+                    <button class="btn-secondary" onclick="filtrar()">filtrar</button>
+                </div>
             </div>
 
             <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
@@ -76,7 +81,9 @@
             <script src="/views/user/homemap.js"></script>
 
             <script>
-                var publications = [];
+                let FiltEstudi = []
+                let FiltMuni = []
+                var publications = []
 
 
                 function cargarPublicacionesDB() {
@@ -92,6 +99,7 @@
                     let response = await cargarPublicacionesDB()
 
                     response.forEach(element => {
+
                         if (element.active = true) {
                             publications.push(new Publication(
                                 element.id,
@@ -107,27 +115,135 @@
 
                     });
 
-                    console.log(publications)
                     mostrarPublicaciones()
 
                 }
 
                 function mostrarPublicaciones() {
+                    document.getElementById('listado_publicaciones').innerHTML = ""
 
+
+                    if (FiltEstudi == "" && FiltMuni == "") {
+                        publications.forEach(element => {
+                            publi = document.createElement('div')
+                            publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
+                            publi.appendChild(document.createElement('br'))
+                            publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
+                            publi.appendChild(document.createElement('br'))
+                            publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
+                            publi.appendChild(document.createElement('br'))
+                            publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
+                            document.querySelector('#listado_publicaciones').appendChild(publi);
+                        })
+                    } else if (FiltEstudi == "" && !FiltMuni == "") {
+
+                        publications.forEach(element => {
+                            if (element.getMunicipio() == FiltMuni) {
+                                publi = document.createElement('div')
+                                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
+                                document.querySelector('#listado_publicaciones').appendChild(publi);
+                            }
+                        })
+
+                    } else if (!FiltEstudi == "" && FiltMuni == "") {
+                        publications.forEach(element => {
+                            if (element.getEstudios() == FiltEstudi) {
+                                publi = document.createElement('div')
+                                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
+                                document.querySelector('#listado_publicaciones').appendChild(publi);
+                            }
+                        })
+                    } else {
+                        publications.forEach(element => {
+                            if (element.getEstudios() == FiltEstudi && element.getMunicipio() == FiltMuni) {
+                                publi = document.createElement('div')
+                                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
+                                publi.appendChild(document.createElement('br'))
+                                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
+                                document.querySelector('#listado_publicaciones').appendChild(publi);
+                            }
+                        })
+                    }
+
+                    filtroEstudios()
+                }
+
+
+
+
+
+                function filtroEstudios() {
+                    document.getElementById('estudios').innerHTML = ""
+                    document.getElementById('municipios').innerHTML = ""
+                    let result = []
+                    let estudios = []
+                    let muni = []
                     publications.forEach(element => {
-                        publi = document.createElement('div')
 
-                        publi.appendChild(document.createTextNode( "Titulo: " +element.getTitulo() + "."));
-                        publi.appendChild(document.createElement('br'))
-                        publi.appendChild(document.createTextNode("Tasca: " + element.getTexto()));
+                        estudios.push(element.getEstudios())
+                        muni.push(element.getMunicipio())
 
-
-                        document.querySelector('#listado_publicaciones').appendChild(publi);
                     })
+                    result = estudios.filter((item, index) => {
+                        return estudios.indexOf(item) === index;
+                    })
+                    result2 = muni.filter((item, index) => {
+                        return muni.indexOf(item) === index;
+                    })
+
+                    let nada = document.createElement('option')
+                    nada.value = ""
+                    nada.text = "Nada"
+                    document.querySelector('#estudios').appendChild(nada);
+
+                    let nada2 = document.createElement('option')
+                    nada2.value = ""
+                    nada2.text = "Nada"
+
+                    document.querySelector('#municipios').appendChild(nada2);
+
+                    result.forEach(element => {
+                        let opt = document.createElement('option')
+                        opt.appendChild(document.createTextNode(element));
+
+                        document.querySelector('#estudios').appendChild(opt);
+                    });
+                    result2.forEach(element => {
+                        let opt = document.createElement('option')
+                        opt.appendChild(document.createTextNode(element));
+
+                        document.querySelector('#municipios').appendChild(opt);
+                    });
+
+
 
                 }
 
 
+                function filtrar() {
+
+                    FiltEstudi = document.getElementById('estudios').value
+                    FiltMuni = document.getElementById('municipios').value
+
+
+                    mostrarPublicaciones()
+                }
 
             </script>
     </body>
