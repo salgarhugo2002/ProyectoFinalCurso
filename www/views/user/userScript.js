@@ -7,7 +7,6 @@ miFormulario.addEventListener("submit", async function (event) {
     const jsonData = {};
 
     for (const [key, value] of formData.entries()) {
-        jsonData['id'] = await idmax()
         jsonData[key] = value;
     }
 

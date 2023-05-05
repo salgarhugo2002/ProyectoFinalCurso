@@ -60,15 +60,16 @@ module.exports = (app) => {
    }
 
    passport.serializeUser(function (user, done) {
-      if (user.id == undefined) {
-         user['id'] = 1
-      }
-      done(null, user.id)
+      // if (user.id == undefined) {
+      //    user['id'] = 1
+      // }
+      done(null, user._id)
       
    })
 
-   passport.deserializeUser(async function (id, done) {
-      const user = await User.findOne({ id: id })
+   passport.deserializeUser(async function (_id, done) {
+      const user = await User.findOne({ _id: _id })
+      console.log(user)
       done(null, user)
       
    })
@@ -122,13 +123,6 @@ module.exports = (app) => {
          done(null, false, req.flash('signupMessage', 'The email is alerdy taken'))
       } else {
          const newUser = new User()
-         if (newUser.id == undefined) {
-            newUser.id = 1
-         }
-         else if (newUser.id != undefined) {
-            newUser.id = await idMaxUser()
-         }
-         console.log(newUser.id)
 
          newUser.username = username
          newUser.email = email
