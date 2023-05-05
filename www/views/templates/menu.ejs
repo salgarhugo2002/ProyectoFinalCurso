@@ -35,19 +35,26 @@
                 </div>
                 <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
             </div>
-            <% if (user) { %>
+            <% if (user != undefined && user.type == "company") { %>
             <div class="navbar-nav ms-auto">
               <button class="btn btn-secondary " data-bs-toggle="offcanvas" data-bs-target="#offcanvas2" role="button">
-                <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas2" data-bs-target="#offcanvas2">Perfil</i>
+                <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas2" data-bs-target="#offcanvas2"><%=user.name%></i>
             </button>
             </div>
-            <% } else { %>
+          <%} else if(user != undefined && user.type == "user"){ %>
+            <div class="navbar-nav ms-auto">
+              <button class="btn btn-secondary " data-bs-toggle="offcanvas" data-bs-target="#offcanvas2" role="button">
+                <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas2" data-bs-target="#offcanvas2"><%=user.username%></i>
+            </button>
+            </div>
+              
+            <% } else{ %>
+
               <div class="navbar-nav ms-auto">
                 <a href="/login" class="nav-item nav-link">Login</a>
                 <a href="/register" class="nav-item nav-link">Register</a>
             </div>
-            <% } %>
-          
+          <%}%>
         </div>
     </div>
 </nav>

@@ -71,7 +71,14 @@
               <input type="password" class="form-control rounded-3" id="password2" name="password2" placeholder="Password2" required>
               <label for="password2">Password</label>
             </div>
-            
+            <% if (signinMessagecompany.length > 0) { %>
+              
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong><%= signinMessagecompany %></strong> 
+                
+              </div>
+                
+            <% } %>
             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
             <small class="text-body-secondary">No tienes una cuenta? <a href="/register/company">Registrate</a>.</small>
             <br>

@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt')
 const CompanySchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: false,
-        default: 1
-    },
+   
     name: {
         type: String,
         required: true
@@ -46,6 +42,11 @@ const CompanySchema = new mongoose.Schema({
     repeatpassword: {
         type: String,
         required: true
+    },
+    type: {
+        type: String,
+        required: false,
+        default: "company"
     }
 
 },
