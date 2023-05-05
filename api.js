@@ -45,8 +45,9 @@ module.exports = (app) => {
    app.use((req, res, next) => {
       app.locals.signinMessage = req.flash('signinMessage')
       app.locals.signupMessage = req.flash('signupMessage')
+      app.locals.signinMessagecompany = req.flash('signinMessagecompany')
       app.locals.user = req.user
-      app.locals.company = req.company
+      
       next()
    })
 
@@ -60,17 +61,27 @@ module.exports = (app) => {
    }
 
    passport.serializeUser(function (user, done) {
-      // if (user.id == undefined) {
-      //    user['id'] = 1
-      // }
-      done(null, user._id)
+      if (user instanceof User) {
+         done(null, user._id)
+      }else if(user instanceof Company){
+         let company =user
+         done(null, company._id)
+      }
+      
       
    })
 
    passport.deserializeUser(async function (_id, done) {
       const user = await User.findOne({ _id: _id })
-      console.log(user)
-      done(null, user)
+      const company = await Company.findOne({ _id: _id })
+      
+      if (user instanceof User) {
+         done(null, user)
+      }
+      else if(company instanceof Company){
+         done(null, company)
+
+      }
       
    })
 
@@ -90,27 +101,6 @@ module.exports = (app) => {
       done(null, user)
    }))
 
-   async function returnMaxId() {
-      return await fetch('http://localhost:3000/user/idmax')
-         .then((res) => res.json());
-
-   }
-   
-
-   async function idmax() {
-
-      const response = await returnMaxId();
-
-      try {
-
-         let abc = response[0].id;
-
-         return abc + 1;
-      } catch (error) {
-
-         console.log("no hi ha cap publication a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
-      }
-   }
    
 
    passport.use('local-signup', new PassportLocal({
@@ -149,97 +139,45 @@ module.exports = (app) => {
       if (company) {
          done(null, false, "as")
       } else {
-         const newCompany = new Company()
+         const company = new Company()
+      
+         company.name = name
+         company.email = email
          
-         if (newCompany.id == undefined) {
-            console.log("ehuuhwhuoe")
-            newCompany.id = 1
-         }else if(newCompany.id != undefined){
-            newCompany.id = await idMaxCompany()
-         }
-         
-         newCompany.name = name
-         newCompany.email = email
-         newCompany.password = req.body.password
-         newCompany.numeroTelefono = req.body.numeroTelefono
-         newCompany.calle = req.body.calle
-         newCompany.numeroCalle = req.body.numeroCalle
-         newCompany.municipio = req.body.municipio
-         newCompany.codigoPostal = req.body.codigoPostal
-         newCompany.nif = req.body.nif
-         
-         console.log(newCompany)
-         await newCompany.save()
-         done(null, newCompany)
+         company.numeroTelefono = req.body.numeroTelefono
+         company.calle = req.body.calle
+         company.numeroCalle = req.body.numeroCalle
+         company.municipio = req.body.municipio
+         company.codigoPostal = req.body.codigoPostal
+         company.nif = req.body.nif
+         company.password = req.body.password
+         company.repeatpassword = req.body.repeatpassword
+         console.log(company)
+         await company.save()
+         done(null, company)
 
       }
    }))
 
-   async function returnMaxIdUser() {
-      return await fetch('http://localhost:3000/user/idmax')
-         .then((res) => res.json());
+   passport.use('local-signin-company', new PassportLocal({
+      usernameField: 'email2',
+      passwordField: 'password2',
+      passReqToCallback: true
+   }, async (req, email2, password2, done) => {
+      const company = await Company.findOne({ email: email2 })
 
-   }
-
-
-   async function idMaxUser() {
-
-      const response = await returnMaxIdUser();
-
-      try {
-
-         let abc = response[0].id;
-
-         return abc + 1;
-      } catch (error) {
-
-         console.log("no hi ha cap responsable a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
+      if (!company) {
+         return done(null, false, req.flash('signinMessagecompany', "No existe el usuario"))
       }
-   }
-
-
-   async function returnMaxIdCompany() {
-      return await fetch('http://localhost:3000/company/idmax')
-         .then((res) => res.json());
-
-   }
-
-
-   async function idMaxCompany() {
-
-      const response = await returnMaxIdCompany();
-
-      try {
-
-         let abc = response[0].id;
-
-         return abc + 1;
-      } catch (error) {
-
-         console.log("no hi ha cap responsable a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
+      if (!bcrypt.compareSync(password2,company.password)) {
+         return done(null, false, req.flash('signinMessagecompany', "Contraseña incorrecta"))
       }
-   }
-
+      done(null, company)
+   }))
 
 
    app.set('view engine', 'ejs');
    app.set('views', __dirname + '/www/views')
-
-
-   app.post('/register/educativecenter', async (req, res) => {
-      const centre = new EducativeC(req.body);
-
-      try {
-         await centre.save();
-         const respon = await EducativeC.find({});
-         res.status(200).send(respon);
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
-
-
-
 
 
 
@@ -249,20 +187,7 @@ module.exports = (app) => {
       passReqToCallback: true
    }))
 
-   app.post('/register/company', async (req, res) => {
-      const company = new Company(req.body);
-
-      try {
-         await company.save();
-         const respon = await Company.find({});
-         res.status(200).send(respon);
-
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
-
-
+   
    app.post('/login/user', passport.authenticate('local-signin', {
       successRedirect: "/",
       failureRedirect: "/login",
@@ -270,7 +195,7 @@ module.exports = (app) => {
    }))
 
    app.post('/login/company', passport.authenticate('local-signin-company', {
-      successRedirect: "/",
+      successRedirect: "/company/home",
       failureRedirect: "/login",
       passReqToCallback: true
    }))
@@ -319,10 +244,15 @@ module.exports = (app) => {
    });
 
    app.get("/logout", (req, res, next) => {
-      req.logout(function (err) {
-         if (err) throw err;
-         res.redirect('/');
-      });
+      
+
+      req.logout(function(err){
+         if(err){
+           console.log(err);
+         } else {
+           res.redirect('/');
+         }
+       });
 
    })
 

@@ -16,6 +16,11 @@ const UserSchema = new mongoose.Schema({
     repeatpassword: {
         type: String,
         required: true
+    },
+    type: {
+        type: String,
+        required: false,
+        default: "user"
     }
 
 },
