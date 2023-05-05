@@ -51,7 +51,6 @@ module.exports = (app) => {
    })
 
 
-
    function isAuthenticated(req, res, next) {
       if (req.isAuthenticated(req, res, next)) {
          return next()
@@ -60,15 +59,13 @@ module.exports = (app) => {
    }
 
    passport.serializeUser(function (user, done) {
-      if (user.id == undefined) {
-         user['id'] = 1
-      }
-      done(null, user.id)
+      
+      done(null, user._id)
       
    })
 
-   passport.deserializeUser(async function (id, done) {
-      const user = await User.findOne({ id: id })
+   passport.deserializeUser(async function (_id, done) {
+      const user = await User.findOne({ _id: _id })
       done(null, user)
       
    })
@@ -122,14 +119,6 @@ module.exports = (app) => {
          done(null, false, req.flash('signupMessage', 'The email is alerdy taken'))
       } else {
          const newUser = new User()
-         if (newUser.id == undefined) {
-            newUser.id = 1
-         }
-         else if (newUser.id != undefined) {
-            newUser.id = await idMaxUser()
-         }
-         console.log(newUser.id)
-
          newUser.username = username
          newUser.email = email
          newUser.password = req.body.password
@@ -152,31 +141,23 @@ module.exports = (app) => {
       passReqToCallback: true
    }, async (req, name, email, done) => {
       const company = await Company.findOne({ email: email })
+      console.log(company)
       if (company) {
          done(null, false, "as")
       } else {
-         const newCompany = new Company()
-         
-         if (newCompany.id == undefined) {
-            console.log("ehuuhwhuoe")
-            newCompany.id = 1
-         }else if(newCompany.id != undefined){
-            newCompany.id = await idMaxCompany()
-         }
-         
-         newCompany.name = name
-         newCompany.email = email
-         newCompany.password = req.body.password
-         newCompany.numeroTelefono = req.body.numeroTelefono
-         newCompany.calle = req.body.calle
-         newCompany.numeroCalle = req.body.numeroCalle
-         newCompany.municipio = req.body.municipio
-         newCompany.codigoPostal = req.body.codigoPostal
-         newCompany.nif = req.body.nif
-         
-         console.log(newCompany)
-         await newCompany.save()
-         done(null, newCompany)
+         const company = new Company()
+         company.name = name
+         company.email = email
+         company.numeroTelefono = req.body.numeroTelefono
+         company.calle = req.body.calle
+         company.numeroCalle = req.body.numeroCalle
+         company.municipio = req.body.municipio
+         company.codigoPostal = req.body.codigoPostal
+         company.nif = req.body.nif
+         company.password = req.body.password
+         company.repeatpassword = req.body.repeatpassword
+         await company.save()
+         done(null, company)
 
       }
    }))
@@ -232,18 +213,7 @@ module.exports = (app) => {
    app.set('views', __dirname + '/www/views')
 
 
-   app.post('/register/educativecenter', async (req, res) => {
-      const centre = new EducativeC(req.body);
-
-      try {
-         await centre.save();
-         const respon = await EducativeC.find({});
-         res.status(200).send(respon);
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
-
+   
 
 
 
@@ -254,19 +224,6 @@ module.exports = (app) => {
       failureRedirect: "/register/user",
       passReqToCallback: true
    }))
-
-   app.post('/register/company', async (req, res) => {
-      const company = new Company(req.body);
-
-      try {
-         await company.save();
-         const respon = await Company.find({});
-         res.status(200).send(respon);
-
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
 
 
    app.post('/login/user', passport.authenticate('local-signin', {
@@ -332,10 +289,7 @@ module.exports = (app) => {
 
    })
 
-   app.get('/register/educativecenter', async (req, res) => {
-
-      res.render("educativecenter/registerForm", { titulo: "Register educative center" })
-   });
+  
 
 
    app.get('/register/company', async (req, res) => {
