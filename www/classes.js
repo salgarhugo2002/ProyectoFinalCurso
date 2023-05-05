@@ -119,7 +119,7 @@ class EducativeCenter extends User {
         return this.codigoPostal
     }
     setCodigoPostal(x) {
-       this.codigoPostal = x
+        this.codigoPostal = x
     }
 
     getIdentificador() {
@@ -130,4 +130,75 @@ class EducativeCenter extends User {
     }
 }
 
+
+class Publication {
+
+    constructor(ida, idempresaa, titola, texta, estudios, municipio, caducidada, activo) {
+        this.id = ida
+        this.idCompany = idempresaa
+        this.titulo = titola
+        this.texto = texta
+        this.filtroEstudios = estudios
+        this.filtroMunicipio = municipio
+        this.caducidad = caducidada
+        this.active = activo
+    }
+
+    getId() {
+        return this.id
+    }
+    setId(x) {
+        this.id = x;
+    }
+    getIdCompany() {
+        return this.idCompany
+    }
+    setIdCompany(x) {
+        this.idCompany = x;
+    }
+
+    getTitulo() {
+        return this.titulo
+    }
+    setTitulo(x) {
+        this.titulo = x;
+    }
+
+    getTexto() {
+        return this.texto
+    }
+    setTexto(x) {
+        this.texto = x;
+    }
+
+    getEstudios() {
+        return this.filtroEstudios
+    }
+    setEstudios(x) {
+        this.filtroEstudios = x;
+    }
+
+    getMunicipio() {
+        return this.filtroMunicipio
+    }
+    setMunicipio(x) {
+        this.filtroMunicipio = x;
+    }
+
+    getCaducidad() {
+        return this.caducidad
+    }
+    setCaducidad(x) {
+        this.caducidad = x;
+    }
+
+    getActive() {
+        return this.active
+    }
+    setActive(x) {
+        this.active = x;
+    }
+
+
+}
 

@@ -5,7 +5,7 @@
     </head>
 
 
-    <body>
+    <body onload="construirPublicaciones()">
 
         <%- include("../templates/menu") %>
 
@@ -24,7 +24,7 @@
                         <li>
                             <div class="pac-card" id="pac-card">
                                 <div id="pac-container">
-                                    <input style="width: 95%;" id="pac-input" class ="changetype-cities" type="text"
+                                    <input style="width: 95%;" id="pac-input" class="changetype-cities" type="text"
                                         placeholder="Enter a location" />
                                 </div>
                                 <div id="infowindow-content">
@@ -47,27 +47,87 @@
                 </div>
             </div>
             <div class="container-fluid">
-                <div class="row">
 
-                    <div class="col min-vh-100 py-3" style="margin-left: 19%;">
+                <div class="col" style="margin-left: 19%; margin-top: 3%; float: left;">
 
-                        <!-- toggler -->
-                        <button class="btn btn-secondary " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
-                            role="button">
-                            <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvas">Filtros</i>
-                        </button>
-                        <div id="map" style="height: 500px; width: 500px; "></div>
-                 
+                    <!-- toggler -->
+                    <button class="btn btn-secondary " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                        role="button">
+                        <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvas">Filtros</i>
+                    </button>
+                    <div id="map" style="height: 500px; width: 500px; "></div>
 
-                    </div>
+                    <div style="height: 25%; width: 25%;"></div>
 
                 </div>
+                <div id="listado_publicaciones" class="row" style=" float: right;height: 500px; width: 500px; margin-top: 7%;">
+
+                    
+                </div>
+
             </div>
 
             <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+            <script src="/classes.js"></script>
             <script
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy4davONQxs6wZWaHOR7KLPPgRJig8L_w&callback=initMap&libraries=places&v=weekly"
                 defer></script>
             <script src="/views/user/homemap.js"></script>
+
+            <script>
+                var publications = [];
+
+
+                function cargarPublicacionesDB() {
+
+                    return fetch('http://localhost:3000/publication/show')
+                        .then((res) => res.json())
+
+
+                }
+
+
+                async function construirPublicaciones() {
+                    let response = await cargarPublicacionesDB()
+
+                    response.forEach(element => {
+                        if (element.active = true) {
+                            publications.push(new Publication(
+                                element.id,
+                                element.idCompany,
+                                element.titulo,
+                                element.texto,
+                                element.filtroEstudios,
+                                element.filtroMunicipio,
+                                element.caducidad,
+                                element.active
+                            ))
+                        }
+
+                    });
+
+                    console.log(publications)
+                    mostrarPublicaciones()
+
+                }
+
+                function mostrarPublicaciones() {
+
+                    publications.forEach(element => {
+                        publi = document.createElement('div')
+
+                        publi.appendChild(document.createTextNode( "Titulo: " +element.getTitulo() + "."));
+                        publi.appendChild(document.createElement('br'))
+                        publi.appendChild(document.createTextNode("Tasca: " + element.getTexto()));
+
+
+                        document.querySelector('#listado_publicaciones').appendChild(publi);
+                    })
+
+                }
+
+
+
+            </script>
     </body>

@@ -60,7 +60,7 @@ module.exports = (app) => {
       res.redirect('/user/login')
    }
    passport.serializeUser(function (user, done) {
-      if (user.id == null) {
+      if (user.id == undefined) {
          user['id'] = 1
       }
       done(null, user.id)
@@ -92,7 +92,7 @@ module.exports = (app) => {
          .then((res) => res.json());
 
    }
-
+   
 
    async function idmax() {
 
@@ -105,9 +105,11 @@ module.exports = (app) => {
          return abc + 1;
       } catch (error) {
 
-         console.log("no hi ha cap responsable a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
+         console.log("no hi ha cap publication a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
       }
    }
+   
+
    passport.use('local-signup', new PassportLocal({
       usernameField: 'username',
       passwordField: 'email',
@@ -283,6 +285,31 @@ module.exports = (app) => {
    });
 
 
+   app.get('/publication/idmax', async (req, res) => {
+
+
+      const publication = await Publication.find().select("id").sort({ id: -1 }).limit(1);
+
+      try {
+         res.status(200).send(publication);
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
+
+
+   app.get('/company/idmax', async (req, res) => {
+
+      const company = await Company.find().select("id").sort({ id: -1 }).limit(1);
+
+      try {
+         res.status(200).send(user);
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
+
+
    app.get('/profile', isAuthenticated, async (req, res) => {
       
       const image = await Image.find()
@@ -293,6 +320,20 @@ module.exports = (app) => {
    app.get('/upload', isAuthenticated,(req, res) => {
       res.render("imageForm", { titulo: "Image upload" })
    })
+
+
+
+   app.get('/publication/show', async (req, res) => {
+
+      const publication = await Publication.find({});
+
+      try {
+          res.status(200).send(publication);
+      } catch (error) {
+          res.status(500).send(error);
+      }
+  });
+
 
    app.post('/upload', isAuthenticated,async (req, res) => {
       const image = new Image()

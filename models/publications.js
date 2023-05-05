@@ -18,11 +18,11 @@ const PublicationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    FiltroEstudios: {
+    filtroEstudios: {
         type: String,
         required: true
     },
-    FiltroMunicipio: {
+    filtroMunicipio: {
         type: String,
         required: true
     },
@@ -32,7 +32,7 @@ const PublicationSchema = new mongoose.Schema({
     },
     active: {
         type: Boolean,
-        required: true,
+        required: false,
         default: true
     }
 
