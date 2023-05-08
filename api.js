@@ -190,13 +190,13 @@ module.exports = (app) => {
    
    app.post('/login/user', passport.authenticate('local-signin', {
       successRedirect: "/",
-      failureRedirect: "/login",
+      failureRedirect: "/login/user",
       passReqToCallback: true
    }))
 
    app.post('/login/company', passport.authenticate('local-signin-company', {
       successRedirect: "/company/home",
-      failureRedirect: "/login",
+      failureRedirect: "/login/company",
       passReqToCallback: true
    }))
 
@@ -238,6 +238,22 @@ module.exports = (app) => {
 
       res.render("login", { titulo: "Login" })
    });
+
+
+
+   app.get('/login/user', async (req, res) => {
+
+      res.render("loginuser", { titulo: "Login" })
+   });
+
+
+   app.get('/login/company', async (req, res) => {
+
+      res.render("logincompany", { titulo: "Login" })
+   });
+
+
+
 
    app.get('/register', async (req, res, next) => {
       res.render("register", { titulo: "Register" })
@@ -339,6 +355,12 @@ module.exports = (app) => {
           res.status(500).send(error);
       }
   });
+
+  app.get('/publication/:id', async (req, res) => {
+   const id = req.params.id;
+   const publi = JSON.stringify(await Publication.findOne({ id: id }))
+   res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication" })
+});
 
 
    app.post('/upload', isAuthenticated,async (req, res) => {
