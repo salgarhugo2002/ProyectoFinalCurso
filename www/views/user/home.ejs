@@ -1,249 +1,161 @@
-<%- include("../templates/cabecera") %>
+<%-include ("../templates/cabecera") %>
 
-    <link rel="stylesheet" href="/estilos/userhome.css">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.111.3">
+    <title>Album example · Bootstrap v5.3</title>
+
+
+
+
+
+
+
+    <!-- Favicons -->
+
+    <meta name="theme-color" content="#712cf9">
+
     <link rel="stylesheet" href="/estilos/homemap.css">
-    </head>
 
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+    </style>
+
+
+    </head>
 
     <body onload="construirPublicaciones()">
 
-        <%- include("../templates/menu") %>
+        <header data-bs-theme="dark">
+            <%-include("../templates/menu")%>
 
+        </header>
 
+        <main>
 
-            <div class="offcanvas offcanvas-start" style="width: 18%;" tabindex="-1" id="offcanvas"
-                data-bs-keyboard="false" data-bs-backdrop="false">
-                <div class="offcanvas-header">
-                    <h6 class="offcanvas-title d-none d-sm-block" id="offcanvas">Filtros</h6>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body px-0">
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+            <section class="py-2 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto" id="map">
 
-                        <li>
-                            <div class="pac-card" id="pac-card">
-                                <div id="pac-container">
-                                    <input style="width: 95%;" id="pac-input" class="changetype-cities" type="text"
-                                        placeholder="Enter a location" />
-                                </div>
-                                <div id="infowindow-content">
-                                    <span id="place-name" class="title"></span><br />
-                                    <span id="place-address"></span>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li>
-                            <a href="#" class="nav-link text-truncate">
-                                <i class="fs-5 bi-grid"></i><span class="ms-1 d-none d-sm-inline">Products</span></a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link text-truncate">
-                                <i class="fs-5 bi-people"></i><span class="ms-1 d-none d-sm-inline">Customers</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="container-fluid">
-
-                <div class="col" style="margin-left: 19%; margin-top: 3%; float: left;">
-
-                    <!-- toggler -->
-                    <button class="btn btn-secondary " data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
-                        role="button">
-                        <i class="bi bi-arrow-left-square-fill fs-5" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvas">Filtros</i>
-                    </button>
-                    <div id="map" style="min-height: 500px; max-height: 500px;min-width: 500px; max-width: 500px; ">
                     </div>
-
+                    
+                   
+                   
+                
                 </div>
-                <div id="listado_publicaciones" class="row"
-                    style=" float: right;height: 500px; width: 500px; margin-top: 7%;">
-
-
+            </section>
+               
+                <div class="text-center">
+                <h4>Filtres:</h4>
+                <br>
+                <label>Estudios</label>
+                <select name="estudios" id="estudios" class="btn btn-danger dropdown-toggle"></select>
+                <label>Municipios</label>
+                <select name="municipios" id="municipios" class="btn btn-danger dropdown-toggle"></select>
+                <button class="btn btn-secondary" onclick="filtrar()">Filtrar</button>
                 </div>
 
-                <div style="margin-top: 5%;">
-                    Estudios<select name="estudios" id="estudios"></select>
-                    Municipios<select name="municipios" id="municipios"></select>
-                    <button class="btn-secondary" onclick="filtrar()">filtrar</button>
+            <div class="album py-5 bg-body-tertiary">
+                <div class="container">
+                    <div id="listado_publicaciones" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="pac-card" id="pac-card">
+                <div id="pac-container">
+                    <input style="width: 95%;" id="pac-input" class="changetype-cities" type="text"
+                        placeholder="Enter a location" />
+                </div>
+                <div id="infowindow-content">
+                    <span id="place-name" class="title"></span><br />
+                    <span id="place-address"></span>
                 </div>
             </div>
 
-            <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-            <script src="/classes.js"></script>
-            <script
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy4davONQxs6wZWaHOR7KLPPgRJig8L_w&callback=initMap&libraries=places&v=weekly"
-                defer></script>
-            <script src="/views/user/homemap.js"></script>
-
-            <script>
-                let FiltEstudi = []
-                let FiltMuni = []
-                var publications = []
-
-
-                function cargarPublicacionesDB() {
-
-                    return fetch('http://localhost:3000/publication/show')
-                        .then((res) => res.json())
-
-
-                }
-
-
-                async function construirPublicaciones() {
-                    let response = await cargarPublicacionesDB()
-
-                    response.forEach(element => {
-
-                        if (element.active = true) {
-                            publications.push(new Publication(
-                                element.id,
-                                element.idCompany,
-                                element.titulo,
-                                element.texto,
-                                element.filtroEstudios,
-                                element.filtroMunicipio,
-                                element.caducidad,
-                                element.active
-                            ))
-                        }
-
-                    });
-
-                    mostrarPublicaciones()
-
-                }
-
-                function mostrarPublicaciones() {
-                    document.getElementById('listado_publicaciones').innerHTML = ""
-
-
-                    if (FiltEstudi == "" && FiltMuni == "") {
-                        publications.forEach(element => {
-                            publi = document.createElement('div')
-                            publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                            publi.appendChild(document.createElement('br'))
-                            publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                            publi.appendChild(document.createElement('br'))
-                            publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                            publi.appendChild(document.createElement('br'))
-                            publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                            document.querySelector('#listado_publicaciones').appendChild(publi);
-                        })
-                    } else if (FiltEstudi == "" && !FiltMuni == "") {
-
-                        publications.forEach(element => {
-                            if (element.getMunicipio() == FiltMuni) {
-                                publi = document.createElement('div')
-                                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                                document.querySelector('#listado_publicaciones').appendChild(publi);
-                            }
-                        })
-
-                    } else if (!FiltEstudi == "" && FiltMuni == "") {
-                        publications.forEach(element => {
-                            if (element.getEstudios() == FiltEstudi) {
-                                publi = document.createElement('div')
-                                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                                document.querySelector('#listado_publicaciones').appendChild(publi);
-                            }
-                        })
-                    } else {
-                        publications.forEach(element => {
-                            if (element.getEstudios() == FiltEstudi && element.getMunicipio() == FiltMuni) {
-                                publi = document.createElement('div')
-                                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                                publi.appendChild(document.createElement('br'))
-                                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                                document.querySelector('#listado_publicaciones').appendChild(publi);
-                            }
-                        })
-                    }
-
-                    filtroEstudios()
-                }
-
-
-
-
-
-                function filtroEstudios() {
-                    document.getElementById('estudios').innerHTML = ""
-                    document.getElementById('municipios').innerHTML = ""
-                    let result = []
-                    let estudios = []
-                    let muni = []
-                    publications.forEach(element => {
-
-                        estudios.push(element.getEstudios())
-                        muni.push(element.getMunicipio())
-
-                    })
-                    result = estudios.filter((item, index) => {
-                        return estudios.indexOf(item) === index;
-                    })
-                    result2 = muni.filter((item, index) => {
-                        return muni.indexOf(item) === index;
-                    })
-
-                    let nada = document.createElement('option')
-                    nada.value = ""
-                    nada.text = "Nada"
-                    document.querySelector('#estudios').appendChild(nada);
-
-                    let nada2 = document.createElement('option')
-                    nada2.value = ""
-                    nada2.text = "Nada"
-
-                    document.querySelector('#municipios').appendChild(nada2);
-
-                    result.forEach(element => {
-                        let opt = document.createElement('option')
-                        opt.appendChild(document.createTextNode(element));
-
-                        document.querySelector('#estudios').appendChild(opt);
-                    });
-                    result2.forEach(element => {
-                        let opt = document.createElement('option')
-                        opt.appendChild(document.createTextNode(element));
-
-                        document.querySelector('#municipios').appendChild(opt);
-                    });
-
-
-
-                }
-
-
-                function filtrar() {
-
-                    FiltEstudi = document.getElementById('estudios').value
-                    FiltMuni = document.getElementById('municipios').value
-
-
-                    mostrarPublicaciones()
-                }
-
-            </script>
+        </main>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy4davONQxs6wZWaHOR7KLPPgRJig8L_w&callback=initMap&libraries=places&v=weekly"
+            defer></script>
+        <script src="/views/user/homemap.js"></script>
+        <script src="/classes.js"></script>
+        <script src="/views/user/publications.js"></script>
     </body>
+
+    </html>
