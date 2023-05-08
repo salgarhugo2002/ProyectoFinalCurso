@@ -1,5 +1,5 @@
-let FiltEstudi = []
-let FiltMuni = []
+let FiltEstudi = ""
+let FiltMuni = ""
 var publications = []
 
 
@@ -37,74 +37,71 @@ async function construirPublicaciones() {
 }
 
 function mostrarPublicaciones() {
+    
+    let filtrado = []
     document.getElementById('listado_publicaciones').innerHTML = ""
-
-
     if (FiltEstudi == "" && FiltMuni == "") {
+
+        filtrado = publications
+    }
+
+    if (!FiltEstudi == "") {
+        let aux = []
         publications.forEach(element => {
+            if (element.getEstudios() == FiltEstudi) {
+                aux.push(element)
+            }
+        })
+            filtrado = aux;
+    }
+    
+    if (!FiltMuni == "") {
+        let aux = []
+        if (aux.length > 0) {
+            filtrado.forEach(element => {
+                if (element.getMunicipio() == FiltMuni) {
+                    aux.push(element)
+                }
+            })
+        } else {
+            publications.forEach(element => {
+                if (element.getMunicipio() == FiltMuni) {
+                    aux.push(element)
+                }
+            })
+        }
+        filtrado = aux;
+    }
+        mostrar(filtrado)
+}
+
+
+function mostrar(a){
+    a.forEach(element => {
             let publi = document.createElement('div')
             publi.className = "card"
-            publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
+
             publi.appendChild(document.createElement('br'))
-            publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
+            let titol = document.createElement('p')
+            titol.innerHTML = "<strong>" + element.getTitulo() + "</strong>"
+        
+            publi.appendChild(titol)
+        
+            publi.appendChild(document.createTextNode(element.getTexto()));
             publi.appendChild(document.createElement('br'))
             publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
             publi.appendChild(document.createElement('br'))
             publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-            document.getElementById('listado_publicaciones').appendChild(publi);
-        })
-    } else if (FiltEstudi == "" && !FiltMuni == "") {
+            publi.appendChild(document.createElement('br'))
+            let a = document.createElement('a')
+            a.href = "/publication/" + element.getId();
+            a.innerHTML = "ver mas "
+            publi.appendChild(a)
+            document.querySelector('#listado_publicaciones').appendChild(publi);
 
-        publications.forEach(element => {
-            if (element.getMunicipio() == FiltMuni) {
-                let publi = document.createElement('div')
-                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                document.getElementById('listado_publicaciones').appendChild(publi);
-            }
         })
-
-    } else if (!FiltEstudi == "" && FiltMuni == "") {
-        publications.forEach(element => {
-            if (element.getEstudios() == FiltEstudi) {
-                let publi = document.createElement('div')
-                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                document.getElementById('listado_publicaciones').appendChild(publi);
-            }
-        })
-    } else {
-        publications.forEach(element => {
-            if (element.getEstudios() == FiltEstudi && element.getMunicipio() == FiltMuni) {
-                let publi = document.createElement('div')
-                publi.appendChild(document.createTextNode("Titulo: " + element.getTitulo() + "."));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Dexc: " + element.getTexto()));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-                publi.appendChild(document.createElement('br'))
-                publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-                document.getElementById('listado_publicaciones').appendChild(publi);
-            }
-        })
-    }
-
-    filtroEstudios()
+        filtroEstudios()
 }
-
-
-
-
 
 function filtroEstudios() {
     document.getElementById('estudios').innerHTML = ""
