@@ -19,17 +19,17 @@
 <% if (user != undefined && user.type == "company") { %>
 <div class="navbar navbar-dark bg-dark shadow-sm">
   <div >
-    <a href="/profile" class="navbar-brand ">
+    <a href="/" class="navbar-brand ">
       &nbsp;
-      <strong>Profile</strong>
+      <strong>Home</strong>
     </a>
   </div>
   <div>
       
   </div>
   <div>
-      <a href="/login" class="navbar-brand ">
-          <strong>Company</strong>
+      <a href="/profile" class="navbar-brand ">
+          <strong>Profile</strong>
         </a>
       <a href="/logout" class="navbar-brand ">
           <strong>Logout</strong>
@@ -45,16 +45,16 @@
 <%}else if(user != undefined && user.type == "user"){ %>
   <div class="navbar navbar-dark bg-dark shadow-sm">
     <div >
-      <a href="/profile" class="navbar-brand ">
+      <a href="/" class="navbar-brand ">
         &nbsp;
-        <strong>Profile</strong>
+        <strong>Home</strong>
       </a>
     </div>
     <div>  
     </div>
     <div>
-        <a href="/login" class="navbar-brand ">
-            <strong>Usuario</strong>
+        <a href="/profile" class="navbar-brand ">
+            <strong>Profile</strong>
           </a>
         <a href="/logout" class="navbar-brand ">
             <strong>Logout</strong>

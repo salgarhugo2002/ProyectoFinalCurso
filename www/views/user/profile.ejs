@@ -1,169 +1,186 @@
 <%- include ("../templates/cabecera") %>
 
   </head>
-  <!doctype html>
-  <html lang="en">
-
-  <head>
-    <title>Sidebar 01</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="estilos/style.css">
-    <style>
-      .image-upload>input {
-        display: none;
-      }
-    </style>
-  </head>
-
-  <body>
-
-    <div class="wrapper d-flex align-items-stretch">
-      <nav id="sidebar">
-        <div class="p-4 pt-5">
-          <form action="/upload" method="post" enctype="multipart/form-data">
-            <div class="image-upload">
-              <label for="file-input">
-
-                
-
-                <% if (image.length <1) {%>
-
-                  <img src="imagenes/colegio.png" class="img logo rounded-circle" />
-
-                  <% }%>
-
-
-                    <% if (image.length==1) {%>
-
-                      <img src="<%= image[0].path %>" class="img logo rounded-circle" />
-
-                      <% }%>
-
-                        <% if (image.length> 1) {%>
-
-                          <img src="<%= image[image.length-1].path %>" class="img logo rounded-circle" />
-
-                          <% }%>
-
-                            
-              </label>
-              <input id="file-input" type="file" name="image" />
-            </div>
-            <button type="submit" class="btn btn-primary">Pujar imatge</button>
-          </form>
-
-
-
-          <ul class="list-unstyled components mb-5">
-            <li class="active">
-              <a href="#">Home</a>
-
-            </li>
-            <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Pages</a>
-
-            </li>
-            <li>
-              <a href="#">Portfolio</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-          </ul>
-
-          <div class="footer">
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
-              with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                target="_blank">Colorlib.com</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-          </div>
-
-        </div>
-      </nav>
-
-      <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container-fluid">
-
-            <button type="button" id="sidebarCollapse" class="btn btn-primary">
-              Filtrar
-            </button>
-
-
-            <nav id="sidebar2" class="d-flex justify-content-end">
-              <div class="p-4 pt-5">
-                <ul class="nav navbar-nav ml-auto">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Portfolio</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-
-
-          </div>
-        </nav>
-
-        <div class="row justify-content-center">
-          <div class="col-md-6">
-            <div class="card text-center">
-              <div class="card-body">
-                <% if(user.type == "user"){ %>
-                <h1>Profile of <span style="color: red;">
-                    <%= user.username %>
-                  </span></h1>
-                <h3>Username: <%= user.username %>
-                </h3>
-                <h3>Email: <%= user.email %>
-                </h3>
-                <% }else{ %>
-                  <h1>Profile of <span style="color: red;">
-                    <%= user.name %>
-                  </span></h1>
-                <h3>Username: <%= user.name %>
-                </h3>
-                <h3>Email: <%= user.email %>
-                </h3>
-                <% } %>
+  <section style="background-color: #eee;">
+    <%- include ("../templates/menu") %>
+    <div class="container py-5">
+     
+      <% if (user != undefined && user.type == "user") { %>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center" style="min-height: 410px;">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3"><%= user.username %></h5>
+              
+              <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+              <div class="d-flex justify-content-center mb-2">
+                <button type="button" class="btn btn-danger">Delete user</button>
               </div>
             </div>
-            <br>
-            <div class="d-flex justify-content-start">
-              <a href="/register"><button class="btn btn-success">Register</button></a>
-              &nbsp;
-              <a href="/logout"><button class="btn btn-danger">Logout</button></a>
+          </div>
+          
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= user.username %></p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0"><%= user.email %></p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Phone</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">(097) 234-5678</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Mobile</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">(098) 765-4321</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Password</p>
+                </div>
+                <div class="col-sm-9">
+                  <span class="text-muted mb-0"><%= user.password %></span>&nbsp;<span><button class="btn btn-secondary">Change</button></span>
+                  
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Estudios</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                </div>
+              </div>
             </div>
           </div>
+          
         </div>
-
       </div>
+      <% } else { %>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card mb-4">
+              <div class="card-body text-center" style="min-height: 397px;">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                  class="rounded-circle img-fluid" style="width: 150px;">
+                <h5 class="my-3"><%= user.name %></h5>
+                <p class="text-muted mb-1">Full Stack Developer</p>
+                <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                <div class="d-flex justify-content-center mb-2">
+                  <button type="button" class="btn btn-danger">Delete user</button>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Full Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%= user.name %></p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%= user.email %></p>
+                    
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Phone</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">(097) 234-5678</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Mobile</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">(098) 765-4321</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Address</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Password</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"></p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Estudios</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <% } %>
     </div>
-
-    <script src="estilos/jquery.min.js"></script>
-    <script src="estilos/popper.js"></script>
-    <script src="estilos/main.js"></script>
-  </body>
-
-  </html>
+  </section>
