@@ -3,9 +3,9 @@ let FiltMuni = ""
 var publications = []
 
 
-function cargarPublicacionesDB() {
+async function cargarPublicacionesDB() {
 
-    return fetch('http://localhost:3000/publication/show')
+    return await fetch('http://localhost:3000/publication/show')
         .then((res) => res.json())
 
 

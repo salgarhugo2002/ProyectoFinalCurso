@@ -7,7 +7,7 @@ const PublicationSchema = new mongoose.Schema({
         default: 1
     },
     companyId: {
-        type: Number,
+        type: String,
         required: true
     },
     titulo: {
@@ -26,10 +26,15 @@ const PublicationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    tipo:{
+        type: String,
+        required: true
+    },
     caducidad: {
         type: String,
         required: true
     },
+
     active: {
         type: Boolean,
         required: false,
