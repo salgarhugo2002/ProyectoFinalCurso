@@ -291,8 +291,9 @@ module.exports = (app) => {
    });
 
 
-   app.get('/company/home', async (req, res) => {
+   app.get('/company/home',isAuthenticated, async (req, res) => {
 
+      
       res.render("company/home", { titulo: "Home" })
    });
 
