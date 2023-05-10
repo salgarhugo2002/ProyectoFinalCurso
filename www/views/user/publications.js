@@ -79,12 +79,16 @@ function mostrarPublicaciones() {
 function mostrar(a){
     a.forEach(element => {
             let publi = document.createElement('div')
-            publi.className = "card"
-
-            publi.appendChild(document.createElement('br'))
-            let titol = document.createElement('p')
+            let img = document.createElement('img')
+            img.width = "140"
+            img.height = "140"
+            img.className = "bd-placeholder-img rounded-circle"
+            img.src = "../imagenes/hol.jpg" 
+            publi.className = "col-lg-4"
+            let titol = document.createElement('h2')
+            titol.className = "fw-normal text-info text-break"
             titol.innerHTML = "<strong>" + element.getTitulo() + "</strong>"
-        
+            publi.appendChild(img)
             publi.appendChild(titol)
         
             publi.appendChild(document.createTextNode(element.getTexto()));
@@ -93,10 +97,15 @@ function mostrar(a){
             publi.appendChild(document.createElement('br'))
             publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
             publi.appendChild(document.createElement('br'))
+            
             let a = document.createElement('a')
+            a.className = "btn btn-primary"
             a.href = "/publication/" + element.getId();
             a.innerHTML = "ver mas "
+            publi.appendChild(document.createElement('br'))
             publi.appendChild(a)
+            publi.appendChild(document.createElement('br'))
+            publi.appendChild(document.createElement('br'))
             document.querySelector('#listado_publicaciones').appendChild(publi);
 
         })
