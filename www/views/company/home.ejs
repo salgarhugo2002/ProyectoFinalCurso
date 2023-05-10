@@ -7,69 +7,70 @@
         <%- include("../templates/menu") %>
             <div class="container-fluid">
 
-                <button type="button" id="myInput" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Launch demo modal
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form style="width: 600px;" id="formulario">
+                        <form id="formulario">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Crear Publicacion</h5>
+
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
                                     <div class="form-group">
                                         <label for="titulo">Titulo del anuncio</label>
                                         <input type="text" class="form-control" id="titulo" name="titulo"
-                                            placeholder="Titulo">
+                                            placeholder="Titulo" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="texto">Descripcion del puesto</label>
-                                        <textarea class="form-control" id="texto" name="texto" rows="10"></textarea>
+                                        <textarea class="form-control" id="texto" name="texto" rows="10" required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="filtroEstudios">Estudios</label>
                                         <input type="text" class="form-control" id="filtroEstudios"
-                                            name="filtroEstudios" placeholder="SMX">
+                                            name="filtroEstudios" placeholder="SMX" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="filtroMunicipio">Municipio</label>
                                         <input type="text" class="form-control" id="filtroMunicipio"
-                                            name="filtroMunicipio" placeholder="Girona">
+                                            name="filtroMunicipio" placeholder="Girona" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="tipo">Tipo de practicas</label>
-                                        <select class="form-control" id="tipo" name="tipo">
+                                        <select class="form-control" id="tipo" name="tipo" required>
                                             <option>FCT</option>
                                             <option>DUAL</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="titulo">Caducidad</label>
-                                        <input class="form-control" type="date" name="caducidad" id="caducidad">
+                                        <input class="form-control" type="date" name="caducidad" id="caducidad" required>
                                     </div>
 
                                     <input type="text" name="idc" id="idc" value="<%= user._id %>" hidden>
                                     <br>
 
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Submit</button>
 
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
+                                </div>
+                        </form>
                     </div>
                 </div>
+            </div>
 
             </div>
 
@@ -79,12 +80,13 @@
                 const miFormulario = document.getElementById("formulario");
 
                 miFormulario.addEventListener("submit", async function (event) {
+                    console.log("aaaa")
                     let idc = document.getElementById('idc').value
                     event.preventDefault(); // evita que el formulario se envíe por defecto
 
                     const formData = new FormData(miFormulario); // crea un objeto FormData con los datos del formulario
                     const jsonData = {};
-
+                    miFormulario.reset()
                     for (const [key, value] of formData.entries()) {
                         jsonData['id'] = await idmax2()
                         jsonData['companyId'] = idc;
@@ -95,7 +97,7 @@
                         jsonData['id'] = 1;
                     }
 
-                    miFormulario.reset()
+                   
                     const jsonString = JSON.stringify(jsonData); // convierte el objeto a una cadena JSON
 
                     console.log(jsonString); // muestra la cadena JSON en la consola (puede ser enviada al servidor)
@@ -134,14 +136,8 @@
 
                 $('#myModal').on('shown.bs.modal', function () {
                     $('#myInput').trigger('focus')
-                }) 
+                })
 
-    const myModal = document.getElementById('myModal')
-    const myInput = document.getElementById('myInput')
-
-    myModal.addEventListener('shown.bs.modal', () => {
-    myInput.focus()
-  })
 
 
 
