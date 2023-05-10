@@ -10,6 +10,7 @@
             text-align: left;
             padding: 20px;
             margin-top: 5%;
+            margin-bottom: 5%;
         }
 
         p {
@@ -54,18 +55,24 @@
                 &nbsp;
                 &nbsp; <strong>Caduca:</strong>
                 <p id="caduca"></p>
+                &nbsp;
+
+
+                    <button onclick="inscribeme('<%= user._id %>')" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; margin-left: 80%;">Inscribeme</button>
+                    
             </div>
 
     </body>
 
 
     <script>
+        const publi = JSON.parse('<%- publi %>')
         async function main() {
-            const publi = JSON.parse('<%- publi %>')
+            
             const empr = await retEmpresa(publi.companyId)
 
-            console.log(empr)
-            console.log(publi)
+
+
             document.getElementById('titulo').innerHTML = publi.titulo;
 
             document.getElementById('estudios').innerHTML = publi.filtroEstudios
@@ -87,5 +94,27 @@
             const data = await response.json();
             return data;
         }
+
+        async function inscribeme(idUser){
+
+
+            let object = { "publicationId":publi.id,"userId":idUser}
+
+            let jsonString = JSON.stringify(object)
+
+            
+            fetch('http://localhost:3000/inscription/create',
+                        {
+                            method: "POST",
+                            body: jsonString,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+
+            
+        }
+
+
 
     </script>

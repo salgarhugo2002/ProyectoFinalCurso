@@ -133,13 +133,14 @@ class EducativeCenter extends User {
 
 class Publication {
 
-    constructor(ida, idempresaa, titola, texta, estudios, municipio, caducidada, activo) {
+    constructor(ida, idempresaa, titola, texta, estudios, municipio, tipos, caducidada, activo) {
         this.id = ida
         this.idCompany = idempresaa
         this.titulo = titola
         this.texto = texta
         this.filtroEstudios = estudios
         this.filtroMunicipio = municipio
+        this.tipo = tipos
         this.caducidad = caducidada
         this.active = activo
     }
@@ -198,7 +199,12 @@ class Publication {
     setActive(x) {
         this.active = x;
     }
-
+    getTipo() {
+        return this.tipo
+    }
+    setTipo(x) {
+        this.tipo = x;
+    }
 
 }
 

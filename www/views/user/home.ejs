@@ -93,6 +93,73 @@
         .bd-mode-toggle {
             z-index: 1500;
         }
+.a{
+    text-align: center;
+    width: 100%;
+}
+        .select-group-container {
+            display: inline-block;
+            background-color: #f2f2f2;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 1%;
+            padding: 1%;
+        }
+
+        .select-group {
+            display: flex;
+
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-container {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .select-container:last-child {
+            margin-right: 0;
+        }
+
+        .select-label {
+            margin-right: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .select-style {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+            padding: 5px 10px;
+            cursor: pointer;
+            width: 200px;
+        }
+
+        .btn-secondary {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .btn:active {
+            background-color: #c82333;
+            border-color: #bd2130;
+            box-shadow: none;
+        }
     </style>
 
 
@@ -120,33 +187,66 @@
             </section>
 
             <div class="text-center">
-                <h4>Filtres:</h4>
+                <h4>Filtros:</h4>
                 <br>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <select name="estudios" id="estudios" class="btn btn-danger dropdown-toggle"></select>
-                    <select name="municipios" id="municipios" class="btn btn-danger dropdown-toggle"></select>
-                    <button class="btn btn-secondary" onclick="filtrar()">Filtrar</button>
+
+                <div class="a">
+                <div class="select-group-container">
+                    <div class="select-group">
+                        <div class="select-container">
+                            <label for="estudios" class="select-label">Estudios:</label>
+                            <select name="estudios" id="estudios" class="select-style">
+                                <option value="">Selecciona una opción</option>
+                            </select>
+                        </div>
+                        <div class="select-container">
+                            <label for="municipios" class="select-label">Municipio:</label>
+                            <select name="municipios" id="municipios" class="select-style">
+                                <option value="">Selecciona una opción</option>
+                            </select>
+                        </div>
+                        <div class="select-container">
+                            <label for="municipios" class="select-label">Tipo:</label>
+                            <select name="tipo" id="tipo" class="select-style">
+                                <option value="">Selecciona una opción</option>
+                                <option value="FCT">FCT</option>
+                                <option value="DUAL">DUAL</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-secondary" onclick="filtrar()">Filtrar</button>
+                    </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
 
             <div class="album py-5 bg-body-tertiary">
                 <div class="container ">
                     <div id="listado_publicaciones" class="row text-center text-break">
 
+                        </div>
+                    </div>
+
+                </div>
+                <div class="pac-card" id="pac-card">
+                    <div id="pac-container">
+                        <input style="width: 95%;" id="pac-input" class="changetype-cities" type="text"
+                            placeholder="Enter a location" />
+                    </div>
+                    <div id="infowindow-content">
+                        <span id="place-name" class="title"></span><br />
+                        <span id="place-address"></span>
                     </div>
                 </div>
-
-            </div>
-            <div class="pac-card" id="pac-card">
-                <div id="pac-container">
-                    <input style="width: 95%;" id="pac-input" class="changetype-cities" type="text"
-                        placeholder="Enter a location" />
-                </div>
-                <div id="infowindow-content">
-                    <span id="place-name" class="title"></span><br />
-                    <span id="place-address"></span>
-                </div>
-            </div>
 
         </main>
         <script src="/classes.js"></script>
@@ -155,6 +255,7 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy4davONQxs6wZWaHOR7KLPPgRJig8L_w&callback=initMap&libraries=places&v=weekly"
             defer></script>
         <script src="/views/user/homemap.js"></script>
+
 
         <script src="/views/user/publications.js"></script>
     </body>
