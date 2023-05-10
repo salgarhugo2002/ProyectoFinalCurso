@@ -1,5 +1,6 @@
 let FiltEstudi = ""
 let FiltMuni = ""
+let FiltTipo= ""
 var publications = []
 
 
@@ -25,6 +26,7 @@ async function construirPublicaciones() {
                 element.texto,
                 element.filtroEstudios,
                 element.filtroMunicipio,
+                element.tipo,
                 element.caducidad,
                 element.active
             ))
@@ -37,27 +39,27 @@ async function construirPublicaciones() {
 }
 
 function mostrarPublicaciones() {
-    
+    let aux = []
     let filtrado = []
     document.getElementById('listado_publicaciones').innerHTML = ""
-    if (FiltEstudi == "" && FiltMuni == "") {
+    if (FiltEstudi == "" && FiltMuni == "" && FiltTipo == "" ) {
 
         filtrado = publications
     }
 
     if (!FiltEstudi == "") {
-        let aux = []
+
         publications.forEach(element => {
             if (element.getEstudios() == FiltEstudi) {
                 aux.push(element)
             }
         })
-            filtrado = aux;
+        filtrado = aux;
     }
-    
+
     if (!FiltMuni == "") {
-        let aux = []
-        if (aux.length > 0) {
+        aux = []
+        if (filtrado.length > 0) {
             filtrado.forEach(element => {
                 if (element.getMunicipio() == FiltMuni) {
                     aux.push(element)
@@ -72,40 +74,63 @@ function mostrarPublicaciones() {
         }
         filtrado = aux;
     }
-        mostrar(filtrado)
+
+
+    if (!FiltTipo == "") {
+        aux = []
+        if (filtrado.length > 0) {
+            filtrado.forEach(element => {
+                if (element.getTipo() == FiltTipo) {
+                    aux.push(element)
+                }
+            })
+        } else {
+            publications.forEach(element => {
+                if (element.getTipo() == FiltTipo) {
+                    aux.push(element)
+                }
+            })
+        }
+        filtrado = aux;
+    }
+
+    mostrar(filtrado)
 }
 
 
-function mostrar(a){
+function mostrar(a) {
     a.forEach(element => {
-            let publi = document.createElement('div')
-            publi.className = "card"
+        let publi = document.createElement('div')
+        publi.className = "card"
 
-            publi.appendChild(document.createElement('br'))
-            let titol = document.createElement('p')
-            titol.innerHTML = "<strong>" + element.getTitulo() + "</strong>"
-        
-            publi.appendChild(titol)
-        
-            publi.appendChild(document.createTextNode(element.getTexto()));
-            publi.appendChild(document.createElement('br'))
-            publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-            publi.appendChild(document.createElement('br'))
-            publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-            publi.appendChild(document.createElement('br'))
-            let a = document.createElement('a')
-            a.href = "/publication/" + element.getId();
-            a.innerHTML = "ver mas "
-            publi.appendChild(a)
-            document.querySelector('#listado_publicaciones').appendChild(publi);
+        publi.appendChild(document.createElement('br'))
+        let titol = document.createElement('p')
+        titol.innerHTML = "<strong>" + element.getTitulo() + "</strong>"
 
-        })
-        filtroEstudios()
+        publi.appendChild(titol)
+
+        publi.appendChild(document.createTextNode(element.getTexto()));
+        publi.appendChild(document.createElement('br'))
+        publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
+        publi.appendChild(document.createElement('br'))
+        publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
+        publi.appendChild(document.createElement('br'))
+        publi.appendChild(document.createTextNode("Tipo: " + element.getTipo()));
+        publi.appendChild(document.createElement('br'))
+        let a = document.createElement('a')
+        a.href = "/publication/" + element.getId();
+        a.innerHTML = "ver mas "
+        publi.appendChild(a)
+        document.querySelector('#listado_publicaciones').appendChild(publi);
+
+    })
+    filtroEstudios()
 }
 
 function filtroEstudios() {
     document.getElementById('estudios').innerHTML = ""
     document.getElementById('municipios').innerHTML = ""
+    document.getElementById('tipo').innerHTML = ""
     let result = []
     let estudios = []
     let muni = []
@@ -122,6 +147,8 @@ function filtroEstudios() {
         return muni.indexOf(item) === index;
     })
 
+
+
     let nada = document.createElement('option')
     nada.value = ""
     nada.text = "Nada"
@@ -130,8 +157,24 @@ function filtroEstudios() {
     let nada2 = document.createElement('option')
     nada2.value = ""
     nada2.text = "Nada"
-
     document.querySelector('#municipios').appendChild(nada2);
+
+    let nada3 = document.createElement('option')
+    nada3.value = ""
+    nada3.text = "Nada"
+    document.querySelector('#tipo').appendChild(nada3);
+
+    let fct = document.createElement('option')
+    fct.value = "FCT"
+    fct.text = "FCT"
+    document.querySelector('#tipo').appendChild(fct);
+
+    let dual = document.createElement('option')
+    dual.value = "DUAL"
+    dual.text = "DUAL"
+    document.querySelector('#tipo').appendChild(dual);
+
+
 
     result.forEach(element => {
         let opt = document.createElement('option')
@@ -155,7 +198,7 @@ function filtrar() {
 
     FiltEstudi = document.getElementById('estudios').value
     FiltMuni = document.getElementById('municipios').value
-
+    FiltTipo = document.getElementById('tipo').value
 
     mostrarPublicaciones()
 }

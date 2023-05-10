@@ -3,6 +3,7 @@ const EducativeC = require('./models/educativeCenter');
 const Company = require('./models/company');
 const User = require('./models/user');
 const Publication = require('./models/publications');
+const Inscription = require('./models/inscriptions');
 const bcrypt = require('bcrypt')
 const session = require('express-session')
 const passport = require('passport');
@@ -224,7 +225,19 @@ module.exports = (app) => {
 
 
 
+   app.post('/inscription/create', async (req, res) => {
+      const inscription = new Inscription (req.body);
 
+      console.log(req.body)
+      try {
+         await inscription.save();
+         const respon = await Inscription.find({});
+         res.status(200).send(respon);
+
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
 
 
 
@@ -357,7 +370,7 @@ module.exports = (app) => {
       }
   });
 
-  app.get('/publication/:id', async (req, res) => {
+  app.get('/publication/:id',isAuthenticated, async (req, res) => {
    const id = req.params.id;
    const publi = JSON.stringify(await Publication.findOne({ id: id }))
    res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication"})
