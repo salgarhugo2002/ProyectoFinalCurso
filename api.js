@@ -27,7 +27,7 @@ module.exports = (app) => {
       }
    })
    app.use(multer({ storage: storage }).single('image'))
-   app.use(express.urlencoded({ extended: false }))
+   app.use(express.urlencoded({ extended: true }))
    app.use((req, res, next) => {
       app.locals.format = format
       next()
@@ -414,6 +414,73 @@ app.get('/company/show/:id', async (req, res) => {
          res.redirect('/')
       }
    })
+
+
+    app.get('/password/:_id',isAuthenticated, async (req, res) => {
+      const id = req.params._id;
+      res.render("./user/changePassword",{titulo: "Cambiar contraseña", _id: id})
+    });
+
+
+    app.post('/password/:_id', async (req, res) => {
+      const userId = req.params._id;
+      const currentPassword = req.body.currentpassword
+      const newPassword = req.body.newpassword;
+      const repeatPassword = req.body.repeatpassword
+      const user = await User.findOne({_id:userId})
+
+      if (user) {
+         console.log(user)
+      if (!user) {
+        return res.status(404).send('Usuario no encontrado');
+      }
+      else if(!bcrypt.compareSync(currentPassword,user.password)){
+         return res.status(404).send('La contraseña actual no coincide con la de la base de datos');
+      }
+      else if(newPassword != repeatPassword){
+         return res.status(404).send('Las contraseñas no coinciden');
+      }else{
+         user.password = newPassword;
+         const hashed = bcrypt.hashSync(user.password,8)
+
+         await User.updateOne({ _id: userId }, { $set: { password: hashed,repeatpassword:hashed } });
+         res.send('Contraseña modificada correctamente');
+      }
+      }else{
+         const companyId = req.params._id;
+         const currentPassword = req.body.currentpassword
+         const newPassword = req.body.newpassword;
+         const repeatPassword = req.body.repeatpassword
+         const company = await Company.findOne({_id:companyId})
+         if (!company) {
+            return res.status(404).send('Usuario no encontrado');
+          }
+          else if(!bcrypt.compareSync(currentPassword,company.password)){
+             return res.status(404).send('La contraseña actual no coincide con la de la base de datos');
+          }
+          else if(newPassword != repeatPassword){
+             return res.status(404).send('Las contraseñas no coinciden');
+          }else{
+             company.password = newPassword;
+             const hashed = bcrypt.hashSync(company.password,8)
+    
+             await Company.updateOne({ _id: companyId }, { $set: { password: hashed,repeatpassword:hashed } });
+             res.send('Contraseña modificada correctamente');
+         }
+      }
+      
+
+      
+      
+    });
+
+
+    app.post('/deleteuser/:_id',isAuthenticated, async (req, res) => {
+      const id = req.params._id;
+      const user = await User.findOne({ _id: id })
+      await User.deleteOne(user)
+      res.redirect('/login');
+    });
 
 }
 
