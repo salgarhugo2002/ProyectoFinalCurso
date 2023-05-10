@@ -359,7 +359,20 @@ module.exports = (app) => {
   app.get('/publication/:id', async (req, res) => {
    const id = req.params.id;
    const publi = JSON.stringify(await Publication.findOne({ id: id }))
-   res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication" })
+   res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication"})
+});
+
+
+app.get('/company/show/:id', async (req, res) => {
+
+   const id = req.params.id;
+
+   const empr = JSON.stringify(await Company.findOne({ _id: id }))
+   try {
+       res.status(200).send(empr);
+   } catch (error) {
+       res.status(500).send(error);
+   }
 });
 
 

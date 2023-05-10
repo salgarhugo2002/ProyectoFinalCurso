@@ -1,17 +1,91 @@
 <%- include("../templates/cabecera") %>
 
-</head>
-
-<body>
-    <%- include("../templates/menu") %>
-
-</body>
 
 
-<script>
-const publi = '<%- publi %>'
+    <style>
+        .centrado {
+            background-color: lightgrey;
+            width: 50%;
+            margin: 0 auto;
+            text-align: left;
+            padding: 20px;
+            margin-top: 5%;
+        }
+
+        p {
+            margin-left: 12%;
+        }
+    </style>
+    </head>
+
+    <body onload="main()">
+        <%- include("../templates/menu") %>
+
+            <div class="container-fluid centrado">
+                &nbsp;
+                <p style="text-align: center; margin-left: 0%;"><strong id="titulo"></strong></p>
+                &nbsp;
+                &nbsp;
+                &nbsp; <strong>Empresa:</strong>
+                <p id="empresa"></p>
+                &nbsp;
+                &nbsp;
+                &nbsp; <strong>Estudios:</strong>
+                <p id="estudios"></p>
+                &nbsp;
+                &nbsp;
+                &nbsp; <strong>Tipo de convenio:</strong>
+                <p id="convenio"></p>
+                &nbsp;
+                &nbsp;
+
+                &nbsp; <strong>Municipio:</strong>
+                <p id="municipio"></p>
+                &nbsp;
+                &nbsp;
+                &nbsp; <strong>Direccion:</strong>
+                <p id="direccion"></p>
+                &nbsp;
+                &nbsp;
+                &nbsp; <strong>Descripcion del puesto:</strong>
+                <p id="desc"></p>
+
+                &nbsp;
+                &nbsp;
+                &nbsp; <strong>Caduca:</strong>
+                <p id="caduca"></p>
+            </div>
+
+    </body>
 
 
+    <script>
+        async function main() {
+            const publi = JSON.parse('<%- publi %>')
+            const empr = await retEmpresa(publi.companyId)
 
+            console.log(empr)
+            console.log(publi)
+            document.getElementById('titulo').innerHTML = publi.titulo;
 
-</script>
+            document.getElementById('estudios').innerHTML = publi.filtroEstudios
+
+            document.getElementById('municipio').innerHTML = publi.filtroMunicipio
+
+            document.getElementById('empresa').innerHTML = empr.name
+
+            document.getElementById('direccion').innerHTML = empr.calle + " " + empr.numeroCalle
+
+            document.getElementById('convenio').innerHTML = publi.tipo
+
+            document.getElementById('desc').innerHTML = publi.texto
+
+            document.getElementById('caduca').innerHTML = publi.caducidad
+        }
+        async function retEmpresa(id) {
+            const response = await fetch('http://localhost:3000/company/show/' + id);
+            const data = await response.json();
+            return data;
+        }
+
+    </script>

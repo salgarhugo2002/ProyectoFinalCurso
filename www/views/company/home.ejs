@@ -5,27 +5,57 @@
     <body>
 
         <%- include("../templates/menu") %>
+            <div class="container-fluid">
+                &nbsp;
 
+                <form style="width: 600px;" id="formulario">
+                    <div class="form-group">
+                        <label for="titulo">Titulo del anuncio</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+                    </div>
+                    <div class="form-group">
+                        <label for="texto">Descripcion del puesto</label>
+                        <textarea class="form-control" id="texto" name="texto" rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroEstudios">Estudios</label>
+                        <input type="text" class="form-control" id="filtroEstudios" name="filtroEstudios"
+                            placeholder="SMX">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroMunicipio">Municipio</label>
+                        <input type="text" class="form-control" id="filtroMunicipio" name="filtroMunicipio"
+                            placeholder="Girona">
+                    </div>
 
-            <form action="/publication/create" method="post" id="formulario" style="margin-top: 5%;">
-                Titulo<input type="text" name="titulo" id="titulo">
-                <br>
-                Texto <input type="text" name="texto" id="texto">
-                <br>
-                Estudios <input type="text" name="filtroEstudios" id="estudios">
-                <br>
-                Municipio <input type="text" name="filtroMunicipio" id="municipio">
-                <input type="submit" value="enviar">
-                Caducidad <input type="date" name="caducidad" id="caducidad">
-                <br>
+                    <div class="form-group">
+                        <label for="tipo">Tipo de practicas</label>
+                        <select class="form-control" id="tipo" name="tipo">
+                            <option>FCT</option>
+                            <option>DUAL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">Caducidad</label>
+                        <input class="form-control" type="date" name="caducidad" id="caducidad">
+                    </div>
 
-                
-            </form>
+                    <input type="text" name="idc" id="idc" value="<%= user._id %>" hidden>
+                    <br>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
+
+            </div>
+
             <script>
+
 
                 const miFormulario = document.getElementById("formulario");
 
                 miFormulario.addEventListener("submit", async function (event) {
+                    let idc = document.getElementById('idc').value
                     event.preventDefault(); // evita que el formulario se envíe por defecto
 
                     const formData = new FormData(miFormulario); // crea un objeto FormData con los datos del formulario
@@ -33,11 +63,11 @@
 
                     for (const [key, value] of formData.entries()) {
                         jsonData['id'] = await idmax2()
-                        jsonData['companyId'] = 1;
+                        jsonData['companyId'] = idc;
                         jsonData[key] = value;
                     }
 
-                    if(jsonData['id'] == undefined){
+                    if (jsonData['id'] == undefined) {
                         jsonData['id'] = 1;
                     }
 
@@ -78,5 +108,8 @@
                 }
 
 
+
+
+                miFormulario.reset()
             </script>
     </body>
