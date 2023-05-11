@@ -125,11 +125,9 @@ function mostrar(a) {
 
         const titulo = document.createElement("h5");
         titulo.classList.add("card-title");
-        titulo.textContent = "Título de la tarjeta";
+        titulo.textContent = elemento.getTitulo();
 
-        const contenido = document.createElement("label");
-        contenido.classList.add("card-text");
-        contenido.textContent = elemento.getTexto();
+
 
         const estudios = document.createElement("label");
         estudios.textContent = "Estudios: " + elemento.getEstudios();
@@ -142,8 +140,7 @@ function mostrar(a) {
 
         // Agregar los elementos creados a la tarjeta y a la columna
         cuerpoTarjeta.appendChild(titulo);
-        cuerpoTarjeta.appendChild(contenido);
-        cuerpoTarjeta.appendChild(document.createElement("br"));
+
         cuerpoTarjeta.appendChild(estudios);
         cuerpoTarjeta.appendChild(document.createElement("br"));
         cuerpoTarjeta.appendChild(municipio);
