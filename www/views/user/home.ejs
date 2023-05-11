@@ -1,6 +1,6 @@
 <%-include ("../templates/cabecera") %>
 
-
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -8,14 +8,7 @@
     <meta name="generator" content="Hugo 0.111.3">
     <title>Album example · Bootstrap v5.3</title>
 
-
-
-
-
-
-
     <!-- Favicons -->
-
     <meta name="theme-color" content="#712cf9">
 
     <link rel="stylesheet" href="/estilos/homemap.css">
@@ -93,10 +86,12 @@
         .bd-mode-toggle {
             z-index: 1500;
         }
-.a{
-    text-align: center;
-    width: 100%;
-}
+
+        .a {
+            text-align: center;
+            width: 100%;
+        }
+
         .select-group-container {
             display: inline-block;
             background-color: #f2f2f2;
@@ -165,24 +160,15 @@
 
     </head>
 
-    <body onload="construirPublicaciones()">
-
+    <body onload="construirPublicaciones()" style="background-color: #0b0418;">
         <header data-bs-theme="dark">
             <%-include("../templates/menu")%>
-
         </header>
-
         <main>
-
             <section class="py-2 text-center container">
                 <div class="row py-lg-5">
                     <div class="col-lg-6 col-md-8 mx-auto" id="map">
-
                     </div>
-
-
-
-
                 </div>
             </section>
 
@@ -191,51 +177,39 @@
                 <br>
 
                 <div class="a">
-                <div class="select-group-container">
-                    <div class="select-group">
-                        <div class="select-container">
-                            <label for="estudios" class="select-label">Estudios:</label>
-                            <select name="estudios" id="estudios" class="select-style">
-                                <option value="">Selecciona una opción</option>
-                            </select>
-                        </div>
-                        <div class="select-container">
-                            <label for="municipios" class="select-label">Municipio:</label>
-                            <select name="municipios" id="municipios" class="select-style">
-                                <option value="">Selecciona una opción</option>
-                            </select>
-                        </div>
-                        <div class="select-container">
-                            <label for="municipios" class="select-label">Tipo:</label>
-                            <select name="tipo" id="tipo" class="select-style">
-                                <option value="">Selecciona una opción</option>
-                                <option value="FCT">FCT</option>
-                                <option value="DUAL">DUAL</option>
-                            </select>
-                        </div>
+                    <div class="select-group-container">
+                        <div class="select-group">
+                            <div class="select-container">
+                                <label for="estudios" class="select-label">Estudios:</label>
+                                <select name="estudios" id="estudios" class="select-style">
+                                    <option value="">Selecciona una opción</option>
+                                </select>
+                            </div>
+                            <div class="select-container">
+                                <label for="municipios" class="select-label">Municipio:</label>
+                                <select name="municipios" id="municipios" class="select-style">
+                                    <option value="">Selecciona una opción</option>
+                                </select>
+                            </div>
+                            <div class="select-container">
+                                <label for="municipios" class="select-label">Tipo:</label>
+                                <select name="tipo" id="tipo" class="select-style">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="FCT">FCT</option>
+                                    <option value="DUAL">DUAL</option>
+                                </select>
+                            </div>
 
-                        <button class="btn btn-secondary" onclick="filtrar()">Filtrar</button>
+                            <button class="btn btn-secondary" onclick="filtrar()">Filtrar</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-
-
-
-
-
-
-
-
-
-
-            <div class="album py-5 bg-body-tertiary">
-                <div class="container ">
-                    <div id="listado_publicaciones" class="row text-center text-break">
-
+                <div class="album py-5 bg-body-tertiary">
+                    <div class="container ">
+                        <div id="listado_publicaciones" style="color: white;" class="row text-break">
                         </div>
                     </div>
-
                 </div>
                 <div class="pac-card" id="pac-card">
                     <div id="pac-container">

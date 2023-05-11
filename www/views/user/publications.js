@@ -1,6 +1,6 @@
 let FiltEstudi = ""
 let FiltMuni = ""
-let FiltTipo= ""
+let FiltTipo = ""
 var publications = []
 
 
@@ -42,7 +42,7 @@ function mostrarPublicaciones() {
     let aux = []
     let filtrado = []
     document.getElementById('listado_publicaciones').innerHTML = ""
-    if (FiltEstudi == "" && FiltMuni == "" && FiltTipo == "" ) {
+    if (FiltEstudi == "" && FiltMuni == "" && FiltTipo == "") {
 
         filtrado = publications
     }
@@ -99,38 +99,68 @@ function mostrarPublicaciones() {
 
 
 function mostrar(a) {
-    a.forEach(element => {
-        let publi = document.createElement('div')
-        let img = document.createElement('img')
-            img.width = "140"
-            img.height = "140"
-            img.className = "bd-placeholder-img rounded-circle"
-            img.src = "../imagenes/hol.jpg" 
-        publi.className = "col-lg-4"
-            let titol = document.createElement('h2')
-        titol.className = "fw-normal text-info text-break"
-        titol.innerHTML = "<strong>" + element.getTitulo() + "</strong>"
-    publi.appendChild(img)
-        publi.appendChild(titol)
+    a.forEach(elemento => {
+        const columna = document.createElement("div");
+        columna.classList.add("col-sm-3");
 
-        publi.appendChild(document.createTextNode(element.getTexto()));
-        publi.appendChild(document.createElement('br'))
-        publi.appendChild(document.createTextNode("Estudios: " + element.getEstudios()));
-        publi.appendChild(document.createElement('br'))
-        publi.appendChild(document.createTextNode("Municipio: " + element.getMunicipio()));
-        publi.appendChild(document.createElement('br'))
-        publi.appendChild(document.createTextNode("Tipo: " + element.getTipo()));
-        publi.appendChild(document.createElement('br'))
-            
-        let a = document.createElement('a')
-            a.className = "btn btn-primary"
-        a.href = "/publication/" + element.getId();
-        a.innerHTML = "ver mas "
-            publi.appendChild(document.createElement('br'))
-        publi.appendChild(a)
-            publi.appendChild(document.createElement('br'))
-            publi.appendChild(document.createElement('br'))
-        document.querySelector('#listado_publicaciones').appendChild(publi);
+        const button = document.createElement("a")
+        button.className = "btn"
+        button.style.backgroundColor = "#9146ff"
+        button.href = "/publication/" + elemento.getId()
+        button.textContent = "Ver más"
+
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("card");
+        tarjeta.style.marginRight = "5px";
+        tarjeta.style.marginBottom = "5px";
+
+        const imagen = document.createElement("img");
+        imagen.classList.add("card-img-top");
+        imagen.src = "../imagenes/hol.jpg";
+        
+
+        const cuerpoTarjeta = document.createElement("div");
+        cuerpoTarjeta.style.backgroundColor = "#1e172a"
+        cuerpoTarjeta.classList.add("card-body");
+
+        const titulo = document.createElement("h5");
+        titulo.classList.add("card-title");
+        titulo.textContent = "Título de la tarjeta";
+
+        const contenido = document.createElement("label");
+        contenido.classList.add("card-text");
+        contenido.textContent = elemento.getTexto();
+
+        const estudios = document.createElement("label");
+        estudios.textContent = "Estudios: " + elemento.getEstudios();
+
+        const municipio = document.createElement("label");
+        municipio.textContent = "Municipio: " + elemento.getMunicipio();
+
+        const tipo = document.createElement("label");
+        tipo.textContent = "Tipo: " + elemento.getTipo();
+
+        // Agregar los elementos creados a la tarjeta y a la columna
+        cuerpoTarjeta.appendChild(titulo);
+        cuerpoTarjeta.appendChild(contenido);
+        cuerpoTarjeta.appendChild(document.createElement("br"));
+        cuerpoTarjeta.appendChild(estudios);
+        cuerpoTarjeta.appendChild(document.createElement("br"));
+        cuerpoTarjeta.appendChild(municipio);
+        cuerpoTarjeta.appendChild(document.createElement("br"));
+        cuerpoTarjeta.appendChild(tipo);
+        cuerpoTarjeta.appendChild(document.createElement("br"));
+        cuerpoTarjeta.appendChild(document.createElement("br"));
+        cuerpoTarjeta.appendChild(button);
+        cuerpoTarjeta.appendChild(document.createElement("br"));
+        tarjeta.appendChild(imagen);
+        tarjeta.appendChild(cuerpoTarjeta);
+
+        columna.appendChild(tarjeta);
+
+        // Agregar la columna al contenedor
+        
+        document.querySelector('#listado_publicaciones').appendChild(columna);
 
     })
     filtroEstudios()
