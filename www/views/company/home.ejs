@@ -1,79 +1,82 @@
 <%- include("../templates/cabecera") %>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <style>
-		.left-div {
-			background-color: #f2f2f2;
-			float: left;
-			width: 48%;
-			height: 100vh;
-			padding: 2%;
-			margin-right: 2%;
-            margin-top: 3%;
-            margin-bottom: 3%;
-		}
-
-		.right-div {
-			background-color: #f2f2f2;
-			float: right;
-			width: 48%;
-			height: 100vh;
-			display: flex;
-			justify-content: center;
+        .left-div {
+            background-color: #f2f2f2;
+            float: left;
+            width: 100%;
             padding: 2%;
-			margin-left: 2%; 
             margin-top: 3%;
             margin-bottom: 3%;
-		}
+        }
 
+        .right-div {
+            background-color: #f2f2f2;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            padding: 2%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
 
+        @media only screen and (min-width: 768px) {
+            .left-div {
+                float: left;
 
+                width: 48%;
+                margin-right: 2%;
+            }
 
+            .right-div {
+                float: right;
+                width: 48%;
+                margin-left: 2%;
+            }
+        }
     </style>
     </head>
 
 
-    <body>
+    <body onload="construirPublicaciones()">
 
 
         <%- include("../templates/menu") %>
 
 
 
+            <div class="container-fluid" ; style="height: 500px;">
 
+                <div class="left-div">
+                    <h1> Home de <%= user.name %></h1>
+                    <p>En esta pagina tendras toda la informacion relevante a tus publicaciones </p>
 
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Crear Publicacion
+                    </button>
+                </div>
 
-        <div class="container-fluid">
-            <!-- Div de la izquierda -->
-            <div class="left-div">
-                <h1>Información del usuario</h1>
-                <p>Nombre: John Doe</p>
-                <p>Correo electrónico: john.doe@example.com</p>
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Crear Publicacion
-                </button>
+                <div class="right-div text-break container-fluid">
+                    <div class="row">
+                        <h2>Publicaciones Activas</h2>
+                        <div class="col">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Caducidad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listado_publicaciones">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Div de la derecha -->
-            <div class="right-div">
-                <h2>Contenido del div de la derecha</h2>
-                <p>Este es un ejemplo de contenido alineado al centro</p>
-            </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -136,13 +139,90 @@
                 </div>
             </div>
 
+            <input type="text" id="id" value="<%= user._id %>" hidden>
 
-
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script src="/classes.js"></script>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
 
             <script>
+                publications = []
+
+
+                async function construirPublicaciones() {
+                    let response = await cargarPublicacionesDB()
+                    let id = document.getElementById('id').value
+
+                    console.log(id)
+                    response.forEach(element => {
+
+                        if (element.active == true && element.companyId == id) {
+
+                            publications.push(new Publication(
+                                element.id,
+                                element.companyId,
+                                element.titulo,
+                                element.texto,
+                                element.filtroEstudios,
+                                element.filtroMunicipio,
+                                element.tipo,
+                                element.caducidad,
+                                element.active
+                            ))
+                        }
+
+                    });
+
+                    mostrar()
+
+                }
+
+                async function cargarPublicacionesDB() {
+
+                    return await fetch('http://localhost:3000/publication/show')
+                        .then((res) => res.json())
+
+
+                }
+
+
+
+                function mostrar() {
+
+                    publications.sort(function (a, b) {
+                        return new Date(a.getCaducidad()) - new Date(b.getCaducidad());
+                    });
+
+                    publications.forEach(element => {
+                        let row = document.createElement('tr');
+                        let titleCell = document.createElement('td');
+                        let expirationCell = document.createElement('td');
+                        let actionsCell = document.createElement('td');
+
+                        titleCell.innerHTML = "<strong>" + element.getTitulo() + "";
+                        expirationCell.innerHTML = element.getCaducidad();
+
+                        let a = document.createElement('a');
+                        a.className = 'btn btn-primary';
+                        a.href = '/publication/' + element.getId();
+                        a.innerHTML = 'ver más';
+
+                        actionsCell.appendChild(a);
+
+                        row.appendChild(titleCell);
+                        row.appendChild(expirationCell);
+                        row.appendChild(actionsCell);
+
+                        document.querySelector('#listado_publicaciones').appendChild(row);
+                    });
+                }
 
 
                 const miFormulario = document.getElementById("formulario");
