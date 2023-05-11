@@ -46,6 +46,7 @@ function mostrar() {
     });
 
     publications.forEach(element => {
+        if(element.getActive()){
         let row = document.createElement('tr');
         let titleCell = document.createElement('td');
         let expirationCell = document.createElement('td');
@@ -66,7 +67,49 @@ function mostrar() {
         row.appendChild(actionsCell);
 
         document.querySelector('#listado_publicaciones').appendChild(row);
+    }
+
     });
+
+
+    publications.forEach(element => {
+        if(element.getActive()){
+        let row2 = document.createElement('tr');
+        let title = document.createElement('td');
+        let muni = document.createElement('td');
+        let est = document.createElement('td');
+        let tipo = document.createElement('td')
+        let actionsCell2 = document.createElement('td')
+
+        title.innerHTML = "<strong>" + element.getTitulo() + "</strong>";
+        muni.innerHTML = element.getMunicipio();
+        est.innerHTML = element.getEstudios();
+        tipo.innerHTML = element.getTipo();
+
+
+        let a2 = document.createElement('a');
+        a2.className = 'btn btn-primary';
+        a2.href = '/publication/' + element.getId();
+        a2.innerHTML = 'ver más';
+
+        actionsCell2.appendChild(a2);
+
+        row2.appendChild(title);
+        row2.appendChild(muni);
+        row2.appendChild(est);
+        row2.appendChild(tipo);
+        row2.appendChild(actionsCell2);
+
+
+        document.querySelector('#listado_publicaciones2').appendChild(row2);
+    }
+
+    });
+
+
+
+
+
 }
 
 
