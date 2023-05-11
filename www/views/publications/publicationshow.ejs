@@ -6,61 +6,78 @@
     
 
 
-    
+    div.row{
+      text-align: center;
+ 
+    }
     </style>
     </head>
 
     <body onload="main()" >
         <%- include("../templates/menu") %>
 
-        
+      
+      <% if (user != undefined && user.type == "user") { %>
 
-        <div class="container " style="color: white;">
+        <div class="container text-white text-center border" style="max-width: 500px; margin-top: 10px;">
+        
+          <div class="mx-auto">
             <h3 class="text-center my-3">Información de la publicación</h3>
-            <table class="table table-bordered d-flex justify-content-center" style="color: white;">
-              <tr>
-                <th>Titulo:</th>
-                <td id="titulo"></td>
-              </tr>
-              <tr>
-                <th>Empresa:</th>
-                <td id="empresa"></td>
-              </tr>
-              <tr>
-                <th>Estudios:</th>
-                <td id="estudios"></td>
-              </tr>
-              <tr>
-                <th>Tipo de convenio:</th>
-                <td id="convenio"></td>
-              </tr>
-              <tr>
-                <th>Municipio:</th>
-                <td id="municipio"></td>
-              </tr>
-              <tr>
-                <th>Dirección:</th>
-                <td id="direccion"></td>
-              </tr>
-              <tr>
-                <th>Descripción del puesto:</th>
-                <td id="desc"></td>
-              </tr>
-              <tr>
-                <th>Caduca:</th>
-                <td id="caduca"></td>
-              </tr>
-            </table>
-           
-            <div>
-             
-            </div>
-            <div class="d-flex justify-content-center">
-                <button class="btn btn-success" onclick="inscribeme('<%= user._id %>')">Inscribeme</button>
+            <div class=""><strong>Titulo:</strong></div>
+              <div class="" id="titulo"></div>
+              <div class=""><strong>Empresa:</strong></div>
+              <div class="" id="empresa"></div>
+              <div class=""><strong>Estudios:</strong></div>
+              <div class="" id="estudios"></div>
+              <div class=""><strong>Tipo de convenio:</strong></div>
+              <div class="" id="convenio"></div>
+              <div class=""><strong>Municipio:</strong></div>
+              <div class="" id="municipio"></div>
+              <div class=""><strong>Dirección:</strong></div>
+              <div class="" id="direccion"></div>
+              <div class=""><strong>Descripción del puesto:</strong></div>
+              <div class=" text-break"  id="desc"></div>
+              <div class=""><strong>Caduca:</strong></div>
+              <div class="" id="caduca"></div>
+          </div>
+          
+          <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-success" onclick="inscribeme('<%= user._id %>')">Inscribeme</button>
+          </div>
+          
+        </div>
+        <% } else if (user != undefined && user.type == "company" ) { %>
+
+          <div class="container text-white text-center border" style="max-width: 500px; margin-top: 10px;">
+        
+            <div class="mx-auto">
+              <h3 class="text-center my-3">Información de la publicación</h3>
+              <div class=""><strong>Titulo:</strong></div>
+                <div class="" id="titulo"></div>
+               
+                <div class=""><strong>Empresa:</strong></div>
+                <div class="" id="empresa"></div>
+                <div class=""><strong>Estudios:</strong></div>
+                <div class="" id="estudios"></div>
+                <div class=""><strong>Tipo de convenio:</strong></div>
+                <div class="" id="convenio"></div>
+                <div class=""><strong>Municipio:</strong></div>
+                <div class="" id="municipio"></div>
+                <div class=""><strong>Dirección:</strong></div>
+                <div class="" id="direccion"></div>
+                <div class=""><strong>Descripción del puesto:</strong></div>
+                <div class=" text-break"  id="desc"></div>
+                <div class=""><strong>Caduca:</strong></div>
+                <div class="" id="caduca"></div>
             </div>
             
+            
+            <div class="d-flex justify-content-center mt-3" id="botoncito">
+              
+            </div>
           </div>
-
+          <% } %>
+          
     </body>
 
 
@@ -87,7 +104,25 @@
             document.getElementById('desc').innerHTML = publi.texto
 
             document.getElementById('caduca').innerHTML = publi.caducidad
+
+            if(publi.companyId == "<%= user._id %>"){
+              const form = document.createElement("form")
+              form.action = "/deletepublication/" +publi.id
+              form.method = "POST"
+              
+              const btn = document.createElement("input")
+              btn.className = "btn btn-danger"
+              btn.textContent = "ELiminar"
+              btn.type = "submit"
+              document.getElementById('botoncito').appendChild(form)
+              form.appendChild(btn)
+            }
+
+            
+            
         }
+
+        
         async function retEmpresa(id) {
             const response = await fetch('http://localhost:3000/company/show/' + id);
             const data = await response.json();
