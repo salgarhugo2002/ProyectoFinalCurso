@@ -42,7 +42,7 @@ async function construirPublicaciones() {
 function mostrarPublicaciones() {
     console.log(publications.length)
     if (publications.length == 0) {
-        // location.href = "/nohaypublications"
+        location.href = "/nohaypublications"
     }
     else{
     let aux = []

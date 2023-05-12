@@ -2,29 +2,56 @@
 
 
 
-    <style>
-    
-
-
-    div.row{
+  <style>
+    div.row {
       text-align: center;
- 
+
     }
-    </style>
-    </head>
+  </style>
+  </head>
 
-    <body onload="main()" >
-        <%- include("../templates/menu") %>
+  <body onload="main()">
+    <%- include("../templates/menu") %>
 
-      
-      <% if (user != undefined && user.type == "user") { %>
+
+      <% if (user !=undefined && user.type=="user" ) { %>
 
         <div class="container text-white text-center border" style="max-width: 500px; margin-top: 10px;">
-        
+
           <div class="mx-auto">
             <h3 class="text-center my-3">Información de la publicación</h3>
             <div class=""><strong>Titulo:</strong></div>
+            <div class="" id="titulo"></div>
+            <div class=""><strong>Empresa:</strong></div>
+            <div class="" id="empresa"></div>
+            <div class=""><strong>Estudios:</strong></div>
+            <div class="" id="estudios"></div>
+            <div class=""><strong>Tipo de convenio:</strong></div>
+            <div class="" id="convenio"></div>
+            <div class=""><strong>Municipio:</strong></div>
+            <div class="" id="municipio"></div>
+            <div class=""><strong>Dirección:</strong></div>
+            <div class="" id="direccion"></div>
+            <div class=""><strong>Descripción del puesto:</strong></div>
+            <div class=" text-break" id="desc"></div>
+            <div class=""><strong>Caduca:</strong></div>
+            <div class="" id="caduca"></div>
+          </div>
+
+          <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-success" onclick="inscribeme('<%= user._id %>')">Inscribeme</button>
+          </div>
+
+        </div>
+        <% } else if (user !=undefined && user.type=="company" ) { %>
+
+          <div class="container text-white text-center border" style="max-width: 500px; margin-top: 10px;">
+
+            <div class="mx-auto">
+              <h3 class="text-center my-3">Información de la publicación</h3>
+              <div class=""><strong>Titulo:</strong></div>
               <div class="" id="titulo"></div>
+
               <div class=""><strong>Empresa:</strong></div>
               <div class="" id="empresa"></div>
               <div class=""><strong>Estudios:</strong></div>
@@ -36,120 +63,160 @@
               <div class=""><strong>Dirección:</strong></div>
               <div class="" id="direccion"></div>
               <div class=""><strong>Descripción del puesto:</strong></div>
-              <div class=" text-break"  id="desc"></div>
+              <div class=" text-break" id="desc"></div>
               <div class=""><strong>Caduca:</strong></div>
               <div class="" id="caduca"></div>
-          </div>
-          
-          <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-success" onclick="inscribeme('<%= user._id %>')">Inscribeme</button>
-          </div>
-          
-        </div>
-        <% } else if (user != undefined && user.type == "company" ) { %>
-
-          <div class="container text-white text-center border" style="max-width: 500px; margin-top: 10px;">
-        
-            <div class="mx-auto">
-              <h3 class="text-center my-3">Información de la publicación</h3>
-              <div class=""><strong>Titulo:</strong></div>
-                <div class="" id="titulo"></div>
-               
-                <div class=""><strong>Empresa:</strong></div>
-                <div class="" id="empresa"></div>
-                <div class=""><strong>Estudios:</strong></div>
-                <div class="" id="estudios"></div>
-                <div class=""><strong>Tipo de convenio:</strong></div>
-                <div class="" id="convenio"></div>
-                <div class=""><strong>Municipio:</strong></div>
-                <div class="" id="municipio"></div>
-                <div class=""><strong>Dirección:</strong></div>
-                <div class="" id="direccion"></div>
-                <div class=""><strong>Descripción del puesto:</strong></div>
-                <div class=" text-break"  id="desc"></div>
-                <div class=""><strong>Caduca:</strong></div>
-                <div class="" id="caduca"></div>
             </div>
-            
-            
+
+
             <div class="d-flex justify-content-center mt-3" id="botoncito">
-              
+
             </div>
           </div>
           <% } %>
-          
-    </body>
 
 
-    <script>
-        const publi = JSON.parse('<%- publi %>')
-        async function main() {
-            
-            const empr = await retEmpresa(publi.companyId)
+            <div id="users"></div>
+
+  </body>
 
 
+  <script>
+    const publi = JSON.parse('<%- publi %>')
+    let users = []
+    async function main() {
 
-            document.getElementById('titulo').innerHTML = publi.titulo;
-
-            document.getElementById('estudios').innerHTML = publi.filtroEstudios
-
-            document.getElementById('municipio').innerHTML = publi.filtroMunicipio
-
-            document.getElementById('empresa').innerHTML = empr.name
-
-            document.getElementById('direccion').innerHTML = empr.calle + " " + empr.numeroCalle
-
-            document.getElementById('convenio').innerHTML = publi.tipo
-
-            document.getElementById('desc').innerHTML = publi.texto
-
-            document.getElementById('caduca').innerHTML = publi.caducidad
-
-            if(publi.companyId == "<%= user._id %>"){
-              const form = document.createElement("form")
-              form.action = "/deletepublication/" +publi._id
-              form.method = "POST"
-              
-              const btn = document.createElement("input")
-              btn.className = "btn btn-danger"
-              btn.textContent = "ELiminar"
-              btn.type = "submit"
-              document.getElementById('botoncito').appendChild(form)
-              form.appendChild(btn)
-            }
-
-            
-            
-        }
-
-        
-        async function retEmpresa(id) {
-            const response = await fetch('http://localhost:3000/company/show/' + id);
-            const data = await response.json();
-            return data;
-        }
-
-        async function inscribeme(idUser){
-
-
-            let object = { "publicationId":publi.id,"userId":idUser}
-
-            let jsonString = JSON.stringify(object)
-
-
-            fetch('http://localhost:3000/inscription/create',
-                        {
-                            method: "POST",
-                            body: jsonString,
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-
-            
-                        alert("Se ha inscrito correctamente")
-        }
+      const empr = await retEmpresa(publi.companyId)
 
 
 
-    </script>
+      document.getElementById('titulo').innerHTML = publi.titulo;
+
+      document.getElementById('estudios').innerHTML = publi.filtroEstudios
+
+      document.getElementById('municipio').innerHTML = publi.filtroMunicipio
+
+      document.getElementById('empresa').innerHTML = empr.name
+
+      document.getElementById('direccion').innerHTML = empr.calle + " " + empr.numeroCalle
+
+      document.getElementById('convenio').innerHTML = publi.tipo
+
+      document.getElementById('desc').innerHTML = publi.texto
+
+      document.getElementById('caduca').innerHTML = publi.caducidad
+
+      if (publi.companyId == "<%= user._id %>") {
+        const form = document.createElement("form")
+        form.action = "/deletepublication/" + publi._id
+        form.method = "POST"
+
+        const btn = document.createElement("input")
+        btn.className = "btn btn-danger"
+        btn.textContent = "ELiminar"
+        btn.type = "submit"
+        btn.value = "Eliminar"
+        document.getElementById('botoncito').appendChild(form)
+        form.appendChild(btn)
+
+
+        let table = document.createElement('table')
+        table.className = "table"
+        let thead = document.createElement('thead')
+        let tr = document.createElement('tr')
+        tr.innerHTML = "<th>ID</th> <th>Nombre</th> <th>Correo</th> <th>Edad</th>"
+        thead.appendChild(tr)
+        table.appendChild(thead)
+
+        let tbody = document.createElement('tbody');
+        table.appendChild(tbody)
+
+        let inscripts = await retInscript();
+
+       let aux = []
+        inscripts.forEach(element => {
+
+          if (element.publicationId == publi.id) {
+            aux.push(element);
+
+          }
+
+      })
+
+
+
+      
+
+      console.log(users)
+      users.forEach(user => {
+        const row = document.createElement('tr');
+
+        const idCell = document.createElement('td');
+        idCell.textContent = user.id;
+        row.appendChild(idCell);
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = user.name;
+        row.appendChild(nameCell);
+
+        const emailCell = document.createElement('td');
+        emailCell.textContent = user.email;
+        row.appendChild(emailCell);
+
+        const ageCell = document.createElement('td');
+        ageCell.textContent = user.age;
+        row.appendChild(ageCell);
+
+        tbody.appendChild(row);
+      });
+
+
+      document.getElementById('users').appendChild(table)
+    }
+    }
+
+
+
+
+    
+
+
+    async function retEmpresa(id) {
+      const response = await fetch('http://localhost:3000/company/show/' + id);
+      const data = await response.json();
+      return data;
+    }
+
+
+
+    async function retInscript() {
+      const response = await fetch('http://localhost:3000/inscriptions');
+      const data = await response.json();
+      return data;
+    }
+
+
+    async function inscribeme(idUser) {
+
+
+      let object = { "publicationId": publi.id, "userId": idUser }
+
+      let jsonString = JSON.stringify(object)
+
+
+      fetch('http://localhost:3000/inscription/create',
+        {
+          method: "POST",
+          body: jsonString,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+
+      alert("Se ha inscrito correctamente")
+    }
+
+
+
+  </script>

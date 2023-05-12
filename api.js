@@ -370,6 +370,23 @@ module.exports = (app) => {
       }
   });
 
+
+
+  app.get('/inscriptions', async (req, res) => {
+
+   const inscription = await Inscription.find({});
+
+   try {
+       res.status(200).send(inscription);
+   } catch (error) {
+       res.status(500).send(error);
+   }
+});
+
+
+
+
+
   app.get('/publication/:id',isAuthenticated, async (req, res) => {
    const id = req.params.id;
    const publi = JSON.stringify(await Publication.findOne({ id: id }))
