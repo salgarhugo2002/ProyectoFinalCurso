@@ -398,6 +398,7 @@ module.exports = (app) => {
 
 
 
+
   app.get('/publication/:id',isAuthenticated, async (req, res) => {
    const id = req.params.id;
    const publi = JSON.stringify(await Publication.findOne({ id: id }))
