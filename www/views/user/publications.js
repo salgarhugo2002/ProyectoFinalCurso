@@ -5,11 +5,8 @@ var publications = []
 
 
 async function cargarPublicacionesDB() {
-
     return await fetch('http://localhost:3000/publication/show')
         .then((res) => res.json())
-
-
 }
 
 
@@ -42,7 +39,7 @@ async function construirPublicaciones() {
 function mostrarPublicaciones() {
     console.log(publications.length)
     if (publications.length == 0) {
-        // location.href = "/nohaypublications"
+        location.href = "/nohaypublications"
     }
     else{
     let aux = []
