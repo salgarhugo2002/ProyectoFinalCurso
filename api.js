@@ -496,6 +496,16 @@ app.get('/company/show/:id', async (req, res) => {
       res.redirect('/login');
     });
 
+
+
+    app.post('/deletepublication/:_id',isAuthenticated, async (req, res) => {
+      const id = req.params._id;
+      const publication = await Publication.findOne({ _id: id })
+      console.log(publication)
+      await Publication.updateOne({_id:publication}, {$set:{active: false}})
+      res.send('Modificado con exito');
+    });
+
 }
 
 
