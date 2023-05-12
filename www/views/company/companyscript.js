@@ -11,7 +11,7 @@ async function construirPublicaciones() {
         if (element.companyId == id) {
 
             publications.push(new Publication(
-                element.id,
+                element._id,
                 element.companyId,
                 element.titulo,
                 element.texto,
@@ -124,15 +124,10 @@ miFormulario.addEventListener("submit", async function (event) {
     const jsonData = {};
     miFormulario.reset()
     for (const [key, value] of formData.entries()) {
-        jsonData['id'] = await idmax2()
+
         jsonData['companyId'] = idc;
         jsonData[key] = value;
     }
-
-    if (jsonData['id'] == undefined) {
-        jsonData['id'] = 1;
-    }
-
 
     const jsonString = JSON.stringify(jsonData); // convierte el objeto a una cadena JSON
 
@@ -149,26 +144,6 @@ miFormulario.addEventListener("submit", async function (event) {
 
 });
 
-
-
-function returnMaxId2() {
-    return fetch('http://localhost:3000/publication/idmax')
-        .then((res) => res.json());
-
-}
-
-async function idmax2() {
-
-    const response = await returnMaxId2();
-
-    try {
-
-        let abc = response[0].id;
-        return abc + 1;
-    } catch (error) {
-        console.log("no hi ha cap publicacio a la BDD, pero hem posat que la id default sigui 0 , aquest misatge salta igual pero funciona tot");
-    }
-}
 
 $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
