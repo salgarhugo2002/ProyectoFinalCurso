@@ -6,6 +6,15 @@
     div.row {
       text-align: center;
 
+
+    }
+
+    td {
+      color: white;
+    }
+
+    th {
+      color: white;
     }
   </style>
   </head>
@@ -76,16 +85,20 @@
           <% } %>
 
 
-            <div id="users"></div>
+            <div class="d-flex" id="users" style="align-items: center; justify-content: center;"></div>
 
   </body>
 
 
   <script>
     const publi = JSON.parse('<%- publi %>')
-    let users = []
-    async function main() {
 
+    let users = []
+
+    let usuari = []
+    async function main() {
+      document.getElementById('users').innerHTML = "";
+      usuari = await retUsers()
       const empr = await retEmpresa(publi.companyId)
 
 
@@ -106,6 +119,9 @@
 
       document.getElementById('caduca').innerHTML = publi.caducidad
 
+      function mostrar() {
+
+      }
       if (publi.companyId == "<%= user._id %>") {
         const form = document.createElement("form")
         form.action = "/deletepublication/" + publi._id
@@ -116,15 +132,17 @@
         btn.textContent = "ELiminar"
         btn.type = "submit"
         btn.value = "Eliminar"
+
         document.getElementById('botoncito').appendChild(form)
         form.appendChild(btn)
 
 
         let table = document.createElement('table')
         table.className = "table"
+        table.style = "width: 80%"
         let thead = document.createElement('thead')
         let tr = document.createElement('tr')
-        tr.innerHTML = "<th>ID</th> <th>Nombre</th> <th>Correo</th> <th>Edad</th>"
+        tr.innerHTML = "<th> <strong> Nombre </strong> </th> <th> <strong> Correo </strong></th> <th> </th>  <th> </th> <th>Acciones </th>"
         thead.appendChild(tr)
         table.appendChild(thead)
 
@@ -133,52 +151,75 @@
 
         let inscripts = await retInscript();
 
-       let aux = []
+        let aux = []
         inscripts.forEach(element => {
-
           if (element.publicationId == publi.id) {
             aux.push(element);
 
           }
 
-      })
+        })
+
+
+        usuari.forEach(element => {
+          aux.forEach(element2 => {
+            if (element._id == element2.userId) {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                nameCell.textContent = element.username;
+                row.appendChild(nameCell);
+
+                const emailCell = document.createElement('td');
+                emailCell.textContent = element.email;
+                row.appendChild(emailCell);
+
+                const ageCell = document.createElement('td');
+                row.appendChild(ageCell);
+
+
+                const Cell = document.createElement('td');
+                row.appendChild(Cell);
+
+
+                const actionCell = document.createElement('td');
+                const butn = document.createElement('button')
+                butn.className = "btn btn-success"
+                butn.innerHTML = "Aceptar"
+                butn.style.marginRight = "3px"
+                butn.onclick = "aceptar()"
+                actionCell.appendChild(butn)
+
+
+                let form = document.createElement('form')
+                form.action ="/inscriptions/delete/" + element2._id + "/" + publi.id
+                form.method="post"
+
+                const butn2 = document.createElement('button')
+                butn2.className = "btn btn-danger"
+                butn2.innerHTML = "Rechazar"
+                butn2.type = "submit"
+                form.appendChild(butn2)
+
+                actionCell.appendChild(form)
+
+                row.appendChild(actionCell);
+
+
+                tbody.appendChild(row);
 
 
 
-      
+            }
 
-      console.log(users)
-      users.forEach(user => {
-        const row = document.createElement('tr');
+          });
 
-        const idCell = document.createElement('td');
-        idCell.textContent = user.id;
-        row.appendChild(idCell);
-
-        const nameCell = document.createElement('td');
-        nameCell.textContent = user.name;
-        row.appendChild(nameCell);
-
-        const emailCell = document.createElement('td');
-        emailCell.textContent = user.email;
-        row.appendChild(emailCell);
-
-        const ageCell = document.createElement('td');
-        ageCell.textContent = user.age;
-        row.appendChild(ageCell);
-
-        tbody.appendChild(row);
-      });
+        });
 
 
-      document.getElementById('users').appendChild(table)
+
+        document.getElementById('users').appendChild(table)
+      }
     }
-    }
-
-
-
-
-    
 
 
     async function retEmpresa(id) {
@@ -187,7 +228,11 @@
       return data;
     }
 
-
+    async function retUsers() {
+      const response = await fetch('http://localhost:3000/users');
+      const data = await response.json();
+      return data;
+    }
 
     async function retInscript() {
       const response = await fetch('http://localhost:3000/inscriptions');

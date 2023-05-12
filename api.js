@@ -371,6 +371,17 @@ module.exports = (app) => {
   });
 
 
+  app.get('/users', async (req, res) => {
+
+   const publication = await User.find({});
+
+   try {
+       res.status(200).send(publication);
+   } catch (error) {
+       res.status(500).send(error);
+   }
+});
+
 
   app.get('/inscriptions', async (req, res) => {
 
@@ -392,6 +403,10 @@ module.exports = (app) => {
    const publi = JSON.stringify(await Publication.findOne({ id: id }))
    res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication"})
 });
+
+
+
+
 
 
 app.get('/company/show/:id', async (req, res) => {
@@ -529,6 +544,19 @@ app.get('/company/show/:id', async (req, res) => {
      
       res.render("noHayPublications",{titulo: "No hay publicaciones"})
     });
+
+
+    app.post('/inscriptions/delete/:_id/:id', async (req, res) => {
+
+      const _id = req.params._id;
+      const id = req.params.id
+
+      const inscr = await Inscription.findOne({ _id: _id })
+      await inscr.deleteOne(inscr)
+      res.redirect("/publication/"+id)
+    });
+
+
 
 }
 
