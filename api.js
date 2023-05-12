@@ -503,7 +503,14 @@ app.get('/company/show/:id', async (req, res) => {
       const publication = await Publication.findOne({ _id: id })
       console.log(publication)
       await Publication.updateOne({_id:publication}, {$set:{active: false}})
-      res.send('Modificado con exito');
+      res.redirect("/")
+    });
+
+
+
+    app.get('/nohaypublications', async (req, res) => {
+     
+      res.render("noHayPublications",{titulo: "No hay publicaciones"})
     });
 
 }

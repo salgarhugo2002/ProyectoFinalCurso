@@ -15,10 +15,10 @@ async function cargarPublicacionesDB() {
 
 async function construirPublicaciones() {
     let response = await cargarPublicacionesDB()
-
+    
     response.forEach(element => {
-
-        if (element.active = true) {
+        
+        if (element.active == true) {
             publications.push(new Publication(
                 element.id,
                 element.idCompany,
@@ -31,6 +31,7 @@ async function construirPublicaciones() {
                 element.active
             ))
         }
+        
 
     });
 
@@ -39,6 +40,11 @@ async function construirPublicaciones() {
 }
 
 function mostrarPublicaciones() {
+    console.log(publications.length)
+    if (publications.length == 0) {
+        // location.href = "/nohaypublications"
+    }
+    else{
     let aux = []
     let filtrado = []
     document.getElementById('listado_publicaciones').innerHTML = ""
@@ -95,6 +101,7 @@ function mostrarPublicaciones() {
     }
 
     mostrar(filtrado)
+    }
 }
 
 

@@ -8,7 +8,7 @@ async function construirPublicaciones() {
     console.log(id)
     response.forEach(element => {
 
-        if (element.active == true && element.companyId == id) {
+        if (element.companyId == id) {
 
             publications.push(new Publication(
                 element.id,
@@ -73,7 +73,7 @@ function mostrar() {
 
 
     publications.forEach(element => {
-        if(element.getActive()){
+       
         let row2 = document.createElement('tr');
         let title = document.createElement('td');
         let muni = document.createElement('td');
@@ -102,7 +102,7 @@ function mostrar() {
 
 
         document.querySelector('#listado_publicaciones2').appendChild(row2);
-    }
+    
 
     });
 
