@@ -321,31 +321,6 @@ module.exports = (app) => {
    });
 
 
-   app.get('/publication/idmax', async (req, res) => {
-
-
-      const publication = await Publication.find().select("id").sort({ id: -1 }).limit(1);
-
-      try {
-         res.status(200).send(publication);
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
-
-
-   app.get('/company/idmax', async (req, res) => {
-
-      const company = await Company.find().select("id").sort({ id: -1 }).limit(1);
-
-      try {
-         res.status(200).send(user);
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
-
-
    app.get('/profile', isAuthenticated, async (req, res) => {
 
       const image = await Image.find()
@@ -399,9 +374,9 @@ module.exports = (app) => {
 
 
 
-  app.get('/publication/:id',isAuthenticated, async (req, res) => {
-   const id = req.params.id;
-   const publi = JSON.stringify(await Publication.findOne({ id: id }))
+  app.get('/publication/:_id',isAuthenticated, async (req, res) => {
+   const id = req.params._id;
+   const publi = JSON.stringify(await Publication.findOne({ _id: id }))
    res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication"})
 });
 

@@ -47,8 +47,8 @@
             <div class="" id="caduca"></div>
           </div>
 
-          <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-success" onclick="inscribeme('<%= user._id %>')">Inscribeme</button>
+          <div id="inscr" class="d-flex justify-content-center mt-3">
+
           </div>
 
         </div>
@@ -77,13 +77,13 @@
               <div class="" id="caduca"></div>
             </div>
 
-
+            <div id="inscr" class="d-flex justify-content-center mt-3"></div>
             <div class="d-flex justify-content-center mt-3" id="botoncito">
-
+              
             </div>
           </div>
           <% } %>
-
+          
 
             <div class="d-flex" id="users" style="align-items: center; justify-content: center;"></div>
 
@@ -97,6 +97,7 @@
 
     let usuari = []
     async function main() {
+      let inscripts = await retInscript();
       document.getElementById('users').innerHTML = "";
       usuari = await retUsers()
       const empr = await retEmpresa(publi.companyId)
@@ -121,49 +122,75 @@
 
       function mostrar() {
 
+
       }
-      if (publi.companyId == "<%= user._id %>") {
-        const form = document.createElement("form")
-        form.action = "/deletepublication/" + publi._id
-        form.method = "POST"
+      let bol = false;
+      inscripts.forEach(element => {
+        if (element.userId == "<%= user._id %>")
 
-        const btn = document.createElement("input")
-        btn.className = "btn btn-danger"
-        btn.textContent = "ELiminar"
-        btn.type = "submit"
-        btn.value = "Eliminar"
+          bol = true;
 
-        document.getElementById('botoncito').appendChild(form)
-        form.appendChild(btn)
+      });
+debugger
+      if (bol) {
+        let ap = document.createElement('p')
+        ap.style.color = "red"
+        ap.innerHTML = "<strong> Ya esta inscrito </strong>"
+        document.querySelector('#inscr').appendChild(ap)
+      } else if ('true' == '<%= user.type != "company" %>') {
+        const boton = document.createElement('button')
+        boton.className = "btn btn-success"
+        boton.innerHTML = "Inscribeme"
+        boton.addEventListener("click", function () {
+          inscribeme('<%= user._id %>');
+        });
+
+        document.querySelector('#inscr').appendChild(boton)
+      } else {
+
+        if (publi.companyId == "<%= user._id %>") {
+          const form = document.createElement("form")
+          form.action = "/deletepublication/" + publi._id
+          form.method = "POST"
+
+          const btn = document.createElement("input")
+          btn.className = "btn btn-danger"
+          btn.textContent = "ELiminar"
+          btn.type = "submit"
+          btn.value = "Eliminar"
+
+          btn.style.marginBottom = '5px'
+          document.getElementById('botoncito').appendChild(form)
+          form.appendChild(btn)
 
 
-        let table = document.createElement('table')
-        table.className = "table"
-        table.style = "width: 80%"
-        let thead = document.createElement('thead')
-        let tr = document.createElement('tr')
-        tr.innerHTML = "<th> <strong> Nombre </strong> </th> <th> <strong> Correo </strong></th> <th> </th>  <th> </th> <th>Acciones </th>"
-        thead.appendChild(tr)
-        table.appendChild(thead)
+          let table = document.createElement('table')
+          table.className = "table"
+          table.style = "width: 80%"
+          let thead = document.createElement('thead')
+          let tr = document.createElement('tr')
+          tr.innerHTML = "<th> <strong> Nombre </strong> </th> <th> <strong> Correo </strong></th> <th> </th>  <th> </th> <th>Acciones </th>"
+          thead.appendChild(tr)
+          table.appendChild(thead)
 
-        let tbody = document.createElement('tbody');
-        table.appendChild(tbody)
-
-        let inscripts = await retInscript();
-
-        let aux = []
-        inscripts.forEach(element => {
-          if (element.publicationId == publi.id) {
-            aux.push(element);
-
-          }
-
-        })
+          let tbody = document.createElement('tbody');
+          table.appendChild(tbody)
 
 
-        usuari.forEach(element => {
-          aux.forEach(element2 => {
-            if (element._id == element2.userId) {
+
+          let aux = []
+          inscripts.forEach(element => {
+            if (element.publicationId == publi._id) {
+              aux.push(element);
+
+            }
+
+          })
+
+
+          usuari.forEach(element => {
+            aux.forEach(element2 => {
+              if (element._id == element2.userId) {
                 const row = document.createElement('tr');
                 const nameCell = document.createElement('td');
                 nameCell.textContent = element.username;
@@ -182,17 +209,10 @@
 
 
                 const actionCell = document.createElement('td');
-                const butn = document.createElement('button')
-                butn.className = "btn btn-success"
-                butn.innerHTML = "Aceptar"
-                butn.style.marginRight = "3px"
-                butn.onclick = "aceptar()"
-                actionCell.appendChild(butn)
-
 
                 let form = document.createElement('form')
-                form.action ="/inscriptions/delete/" + element2._id + "/" + publi.id
-                form.method="post"
+                form.action = "/inscriptions/delete/" + element2._id + "/" + publi._id
+                form.method = "post"
 
                 const butn2 = document.createElement('button')
                 butn2.className = "btn btn-danger"
@@ -209,19 +229,20 @@
 
 
 
-            }
+              }
+
+            });
 
           });
 
-        });
 
 
+          document.getElementById('users').appendChild(table)
+        }
 
-        document.getElementById('users').appendChild(table)
       }
+
     }
-
-
     async function retEmpresa(id) {
       const response = await fetch('http://localhost:3000/company/show/' + id);
       const data = await response.json();
@@ -244,7 +265,7 @@
     async function inscribeme(idUser) {
 
 
-      let object = { "publicationId": publi.id, "userId": idUser }
+      let object = { "publicationId": publi._id, "userId": idUser }
 
       let jsonString = JSON.stringify(object)
 
@@ -261,6 +282,8 @@
 
       alert("Se ha inscrito correctamente")
     }
+
+
 
 
 

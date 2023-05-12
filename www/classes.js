@@ -134,7 +134,7 @@ class EducativeCenter extends User {
 class Publication {
 
     constructor(ida, idempresaa, titola, texta, estudios, municipio, tipos, caducidada, activo) {
-        this.id = ida
+        this._id = ida
         this.idCompany = idempresaa
         this.titulo = titola
         this.texto = texta
@@ -146,10 +146,10 @@ class Publication {
     }
 
     getId() {
-        return this.id
+        return this._id
     }
     setId(x) {
-        this.id = x;
+        this._id = x;
     }
     getIdCompany() {
         return this.idCompany

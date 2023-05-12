@@ -20,7 +20,7 @@ async function construirPublicaciones() {
         
         if (element.active == true) {
             publications.push(new Publication(
-                element.id,
+                element._id,
                 element.idCompany,
                 element.titulo,
                 element.texto,
