@@ -16,7 +16,8 @@ const multer = require('multer');
 const Image = require("./models/Image")
 const uuid = require('uuid').v4
 const { format } = require('timeago.js')
-const { unlink } = require('fs-extra')
+const { unlink } = require('fs-extra');
+const { ObjectId } = require('mongodb');
 
 
 module.exports = (app) => {
@@ -48,7 +49,7 @@ module.exports = (app) => {
       app.locals.signupMessage = req.flash('signupMessage')
       app.locals.signinMessagecompany = req.flash('signinMessagecompany')
       app.locals.user = req.user
-      
+
       next()
    })
 
@@ -64,26 +65,26 @@ module.exports = (app) => {
    passport.serializeUser(function (user, done) {
       if (user instanceof User) {
          done(null, user._id)
-      }else if(user instanceof Company){
-         let company =user
+      } else if (user instanceof Company) {
+         let company = user
          done(null, company._id)
       }
-      
-      
+
+
    })
 
    passport.deserializeUser(async function (_id, done) {
       const user = await User.findOne({ _id: _id })
       const company = await Company.findOne({ _id: _id })
-      
+
       if (user instanceof User) {
          done(null, user)
       }
-      else if(company instanceof Company){
+      else if (company instanceof Company) {
          done(null, company)
 
       }
-      
+
    })
 
    passport.use('local-signin', new PassportLocal({
@@ -102,7 +103,7 @@ module.exports = (app) => {
       done(null, user)
    }))
 
-   
+
 
    passport.use('local-signup', new PassportLocal({
       usernameField: 'username',
@@ -119,6 +120,8 @@ module.exports = (app) => {
          newUser.email = email
          newUser.password = req.body.password
          newUser.repeatpassword = req.body.repeatpassword
+         newUser.phone = req.body.phone
+         newUser.studies = req.body.studies
          if (newUser.password != newUser.repeatpassword) {
             done(null, false, req.flash('signupMessage', 'Las contraseñas no coinciden'))
          } else {
@@ -141,10 +144,10 @@ module.exports = (app) => {
          done(null, false, "as")
       } else {
          const company = new Company()
-      
+
          company.name = name
          company.email = email
-         
+
          company.numeroTelefono = req.body.numeroTelefono
          company.calle = req.body.calle
          company.numeroCalle = req.body.numeroCalle
@@ -170,7 +173,7 @@ module.exports = (app) => {
       if (!company) {
          return done(null, false, req.flash('signinMessagecompany', "No existe el usuario"))
       }
-      if (!bcrypt.compareSync(password2,company.password)) {
+      if (!bcrypt.compareSync(password2, company.password)) {
          return done(null, false, req.flash('signinMessagecompany', "Contraseña incorrecta"))
       }
       done(null, company)
@@ -188,7 +191,7 @@ module.exports = (app) => {
       passReqToCallback: true
    }))
 
-   
+
    app.post('/login/user', passport.authenticate('local-signin', {
       successRedirect: "/",
       failureRedirect: "/login/user",
@@ -211,7 +214,7 @@ module.exports = (app) => {
 
 
    app.post('/publication/create', async (req, res) => {
-      const publication = new Publication (req.body);
+      const publication = new Publication(req.body);
 
       try {
          await publication.save();
@@ -226,7 +229,7 @@ module.exports = (app) => {
 
 
    app.post('/inscription/create', async (req, res) => {
-      const inscription = new Inscription (req.body);
+      const inscription = new Inscription(req.body);
 
       console.log(req.body)
       try {
@@ -273,15 +276,15 @@ module.exports = (app) => {
    });
 
    app.get("/logout", (req, res, next) => {
-      
 
-      req.logout(function(err){
-         if(err){
-           console.log(err);
+
+      req.logout(function (err) {
+         if (err) {
+            console.log(err);
          } else {
-           res.redirect('/');
+            res.redirect('/');
          }
-       });
+      });
 
    })
 
@@ -304,9 +307,9 @@ module.exports = (app) => {
    });
 
 
-   app.get('/company/home',isAuthenticated, async (req, res) => {
+   app.get('/company/home', isAuthenticated, async (req, res) => {
 
-      
+
       res.render("company/home", { titulo: "Home" })
    });
 
@@ -339,66 +342,66 @@ module.exports = (app) => {
       const publication = await Publication.find({});
 
       try {
-          res.status(200).send(publication);
+         res.status(200).send(publication);
       } catch (error) {
-          res.status(500).send(error);
+         res.status(500).send(error);
       }
-  });
+   });
 
 
-  app.get('/users', async (req, res) => {
+   app.get('/users', async (req, res) => {
 
-   const publication = await User.find({});
+      const publication = await User.find({});
 
-   try {
-       res.status(200).send(publication);
-   } catch (error) {
-       res.status(500).send(error);
-   }
-});
-
-
-  app.get('/inscriptions', async (req, res) => {
-
-   const inscription = await Inscription.find({});
-
-   try {
-       res.status(200).send(inscription);
-   } catch (error) {
-       res.status(500).send(error);
-   }
-});
+      try {
+         res.status(200).send(publication);
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
 
 
+   app.get('/inscriptions', async (req, res) => {
 
+      const inscription = await Inscription.find({});
 
-
-
-  app.get('/publication/:_id',isAuthenticated, async (req, res) => {
-   const id = req.params._id;
-   const publi = JSON.stringify(await Publication.findOne({ _id: id }))
-   res.render("publications/publicationshow", {publiId: id, publi: publi ,titulo: "Publication"})
-});
+      try {
+         res.status(200).send(inscription);
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
 
 
 
 
 
 
-app.get('/company/show/:id', async (req, res) => {
-
-   const id = req.params.id;
-
-   const empr = JSON.stringify(await Company.findOne({ _id: id }))
-   try {
-       res.status(200).send(empr);
-   } catch (error) {
-       res.status(500).send(error);
-   }
-});
+   app.get('/publication/:_id', isAuthenticated, async (req, res) => {
+      const id = req.params._id;
+      const publi = JSON.stringify(await Publication.findOne({ _id: id }))
+      res.render("publications/publicationshow", { publiId: id, publi: publi, titulo: "Publication" })
+   });
 
 
-   app.post('/upload', isAuthenticated,async (req, res) => {
+
+
+
+
+   app.get('/company/show/:id', async (req, res) => {
+
+      const id = req.params.id;
+
+      const empr = JSON.stringify(await Company.findOne({ _id: id }))
+      try {
+         res.status(200).send(empr);
+      } catch (error) {
+         res.status(500).send(error);
+      }
+   });
+
+
+   app.post('/upload', isAuthenticated, async (req, res) => {
       const image = new Image()
       if (image.title == null && image.description == null) {
          image.title = "Foto_de_perfil"
@@ -438,99 +441,115 @@ app.get('/company/show/:id', async (req, res) => {
    })
 
 
-    app.get('/password/:_id',isAuthenticated, async (req, res) => {
+   app.get('/password/:_id', isAuthenticated, async (req, res) => {
       const id = req.params._id;
-      res.render("./user/changePassword",{titulo: "Cambiar contraseña", _id: id})
-    });
+      res.render("./user/changePassword", { titulo: "Cambiar contraseña", _id: id })
+   });
 
 
-    app.post('/password/:_id', async (req, res) => {
+   app.post('/password/:_id', async (req, res) => {
       const userId = req.params._id;
       const currentPassword = req.body.currentpassword
       const newPassword = req.body.newpassword;
       const repeatPassword = req.body.repeatpassword
-      const user = await User.findOne({_id:userId})
+      const user = await User.findOne({ _id: userId })
 
       if (user) {
          console.log(user)
-      if (!user) {
-        return res.status(404).send('Usuario no encontrado');
-      }
-      else if(!bcrypt.compareSync(currentPassword,user.password)){
-         return res.status(404).send('La contraseña actual no coincide con la de la base de datos');
-      }
-      else if(newPassword != repeatPassword){
-         return res.status(404).send('Las contraseñas no coinciden');
-      }else{
-         user.password = newPassword;
-         const hashed = bcrypt.hashSync(user.password,8)
+         if (!user) {
+            return res.status(404).send('Usuario no encontrado');
+         }
+         else if (!bcrypt.compareSync(currentPassword, user.password)) {
+            return res.status(404).send('La contraseña actual no coincide con la de la base de datos');
+         }
+         else if (newPassword != repeatPassword) {
+            return res.status(404).send('Las contraseñas no coinciden');
+         } else {
+            user.password = newPassword;
+            const hashed = bcrypt.hashSync(user.password, 8)
 
-         await User.updateOne({ _id: userId }, { $set: { password: hashed,repeatpassword:hashed } });
-         res.send('Contraseña modificada correctamente');
-      }
-      }else{
+            await User.updateOne({ _id: userId }, { $set: { password: hashed, repeatpassword: hashed } });
+            res.redirect("/profile")
+         }
+      } else {
          const companyId = req.params._id;
          const currentPassword = req.body.currentpassword
          const newPassword = req.body.newpassword;
          const repeatPassword = req.body.repeatpassword
-         const company = await Company.findOne({_id:companyId})
+         const company = await Company.findOne({ _id: companyId })
          if (!company) {
             return res.status(404).send('Usuario no encontrado');
-          }
-          else if(!bcrypt.compareSync(currentPassword,company.password)){
-             return res.status(404).send('La contraseña actual no coincide con la de la base de datos');
-          }
-          else if(newPassword != repeatPassword){
-             return res.status(404).send('Las contraseñas no coinciden');
-          }else{
-             company.password = newPassword;
-             const hashed = bcrypt.hashSync(company.password,8)
-    
-             await Company.updateOne({ _id: companyId }, { $set: { password: hashed,repeatpassword:hashed } });
-             res.send('Contraseña modificada correctamente');
+         }
+         else if (!bcrypt.compareSync(currentPassword, company.password)) {
+            return res.status(404).send('La contraseña actual no coincide con la de la base de datos');
+         }
+         else if (newPassword != repeatPassword) {
+            return res.status(404).send('Las contraseñas no coinciden');
+         } else {
+            company.password = newPassword;
+            const hashed = bcrypt.hashSync(company.password, 8)
+
+            await Company.updateOne({ _id: companyId }, { $set: { password: hashed, repeatpassword: hashed } });
+            res.redirect("/profile")
          }
       }
-      
-
-      
-      
-    });
 
 
-    app.post('/deleteuser/:_id',isAuthenticated, async (req, res) => {
+
+
+   });
+
+
+   app.post('/deleteuser/:_id', isAuthenticated, async (req, res) => {
       const id = req.params._id;
       const user = await User.findOne({ _id: id })
-      await User.deleteOne(user)
-      res.redirect('/login');
-    });
+      if (user) {
+         await User.deleteOne(user)
+         res.redirect('/login');
+      } else {
+         const company = await Company.findOne({ _id: id })
+         await Company.deleteOne(company)
+         res.redirect('/login');
+      }
+
+   });
 
 
 
-    app.post('/deletepublication/:_id',isAuthenticated, async (req, res) => {
+   app.post('/deletepublication/:_id', isAuthenticated, async (req, res) => {
       const id = req.params._id;
       const publication = await Publication.findOne({ _id: id })
       console.log(publication)
-      await Publication.updateOne({_id:publication}, {$set:{active: false}})
+      await Publication.updateOne({ _id: publication }, { $set: { active: false } })
       res.redirect("/")
-    });
+   });
 
 
 
-    app.get('/nohaypublications', async (req, res) => {
-     
-      res.render("noHayPublications",{titulo: "No hay publicaciones"})
-    });
+   app.get('/nohaypublications', async (req, res) => {
+
+      res.render("noHayPublications", { titulo: "No hay publicaciones" })
+   });
 
 
-    app.post('/inscriptions/delete/:_id/:id', async (req, res) => {
+   app.post('/inscriptions/delete/:_id/:id', async (req, res) => {
 
       const _id = req.params._id;
       const id = req.params.id
 
       const inscr = await Inscription.findOne({ _id: _id })
       await inscr.deleteOne(inscr)
-      res.redirect("/publication/"+id)
-    });
+      res.redirect("/publication/" + id)
+   });
+
+
+
+   app.get('/profile/:_id', async (req, res) => {
+      const id = req.params._id
+      const usr = await User.findOne({ _id: ObjectId(id) })
+
+      res.render("nuevoPerfil",{titulo: "Perfil", user:usr})
+   });
 
 
 

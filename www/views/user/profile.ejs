@@ -35,15 +35,16 @@
       <div class="row">
         <div class="col-lg-4">
           <div class="card mb-4">
-            <div class="card-body text-center" style="min-height: 410px;">
+            <div class="card-body text-center" style="min-height: 340px;">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                 class="rounded-circle img-fluid" style="width: 150px;">
               <h5 class="my-3"><%= user.username %></h5>
               
-              <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+              <p class="text-muted mb-4">Desenvolupador Web</p>
+              
               <div class="d-flex justify-content-center mb-2">
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  Delete user
+                  Borrar usuario
                 </button>
               </div>
             </div>
@@ -52,10 +53,10 @@
         </div>
         <div class="col-lg-8">
           <div class="card mb-4">
-            <div class="card-body">
+            <div class="card-body" style="min-height: 340px;">
               <div class="row">
                 <div class="col-sm-3">
-                  <p class="mb-0">Full Name</p>
+                  <p class="mb-0">Nombre completo</p>
                 </div>
                 <div class="col-sm-9">
                   <p class="text-muted mb-0"><%= user.username %></p>
@@ -73,37 +74,19 @@
               <hr>
               <div class="row">
                 <div class="col-sm-3">
-                  <p class="mb-0">Phone</p>
+                  <p class="mb-0">Teléfono</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">(097) 234-5678</p>
+                  <p class="text-muted mb-0"><%= user.phone %></p>
                 </div>
               </div>
               <hr>
               <div class="row">
                 <div class="col-sm-3">
-                  <p class="mb-0">Mobile</p>
+                  <p class="mb-0">Contraseña</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">(098) 765-4321</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Address</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Password</p>
-                </div>
-                <div class="col-sm-9">
-                  <span class="text-muted mb-0"><%= user.password %></span>&nbsp; <a href="/password/<%= user._id %>"><span><button class="btn btn-secondary">Change</button></span></a>
+                  <span class="text-muted mb-0"><%= user.password %></span>&nbsp; <a href="/password/<%= user._id %>"><span><button class="btn btn-secondary">Cambiar</button></span></a>
                   
                 </div>
               </div>
@@ -113,7 +96,7 @@
                   <p class="mb-0">Estudios</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                  <p class="text-muted mb-0"><%= user.studies %></p>
                 </div>
               </div>
             </div>
@@ -148,14 +131,15 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="card mb-4">
-              <div class="card-body text-center" style="min-height: 397px;">
+              <div class="card-body text-center" style="min-height: 380px;">
+                <br><br>
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                   class="rounded-circle img-fluid" style="width: 150px;">
                 <h5 class="my-3"><%= user.name %></h5>
-                <p class="text-muted mb-1">Full Stack Developer</p>
-                <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                
+                
                 <div class="d-flex justify-content-center mb-2">
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Delete user</button>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar usuario</button>
                 </div>
               </div>
             </div>
@@ -166,7 +150,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-sm-3">
-                    <p class="mb-0">Full Name</p>
+                    <p class="mb-0">Nombre de la compañia</p>
                   </div>
                   <div class="col-sm-9">
                     <p class="text-muted mb-0"><%= user.name %></p>
@@ -175,7 +159,7 @@
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <p class="mb-0">Email</p>
+                    <p class="mb-0">Correo electrónico</p>
                   </div>
                   <div class="col-sm-9">
                     <p class="text-muted mb-0"><%= user.email %></p>
@@ -185,46 +169,41 @@
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <p class="mb-0">Phone</p>
+                    <p class="mb-0">Telefono</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">(097) 234-5678</p>
+                    <p class="text-muted mb-0"><%= user.numeroTelefono %></p>
+                  </div>
+                </div>
+                <hr>
+                
+                
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Calle</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%= user.calle %></p>
+                  </div>
+                </div>
+                <hr>
+                
+                
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Municipio</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%= user.municipio %></p>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <p class="mb-0">Mobile</p>
+                    <p class="mb-0">Contraseña</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">(098) 765-4321</p>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Address</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Password</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.password %></p></span>&nbsp; <a href="/password/<%= user._id %>"><span><button class="btn btn-secondary">Change</button></span></a>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Estudios</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                    <p class="text-muted mb-0"><%= user.password %></p></span>&nbsp; <a href="/password/<%= user._id %>"><span><button class="btn btn-secondary">Cambiar</button></span></a>
                   </div>
                 </div>
               </div>
@@ -236,13 +215,6 @@
     </div>
   </section>
 
-  <script>
-    const myModal = document.getElementById('myModal')
-    const myInput = document.getElementById('myInput')
-
-    myModal.addEventListener('shown.bs.modal', () => {
-    myInput.focus()
-  })
-  </script>
+ 
   </body>
   </html>
