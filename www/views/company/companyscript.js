@@ -141,6 +141,7 @@ miFormulario.addEventListener("submit", async function (event) {
                 'Content-Type': 'application/json'
             }
         })
+        location.reload()
 
 });
 

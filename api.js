@@ -1,26 +1,43 @@
+//Aqui definim les dependencies que necesitarem per realitzar el projecte
+
 const express = require('express');
-const EducativeC = require('./models/educativeCenter');
+//model de les companyies
 const Company = require('./models/company');
+//model dels usuaris
 const User = require('./models/user');
+//model de les publicacions
 const Publication = require('./models/publications');
+//models de les inscripcions
 const Inscription = require('./models/inscriptions');
+//modul per encryptar les contrasenyes
 const bcrypt = require('bcrypt')
+//modul de sessions
 const session = require('express-session')
+//modul per la autentificacio d'usuaris
 const passport = require('passport');
+//modil per utilitzar cookies
 const cookieParser = require('cookie-parser');
 const PassportLocal = require('passport-local').Strategy
+//modul per enviar missatges en cas d'error
 const flash = require('connect-flash')
 const path = require('path')
+//modul per veure el trafic de xarxa, veure els metodes que s'estan utilitzant(get, post....)
 const morgan = require('morgan')
 const multer = require('multer');
+//model de les imatges
 const Image = require("./models/Image")
+//modul per generar id aleatories
 const uuid = require('uuid').v4
+//per donar format a les dates
 const { format } = require('timeago.js')
+//per borrar continguts de la bdd i local
 const { unlink } = require('fs-extra');
 const { ObjectId } = require('mongodb');
 
 
 module.exports = (app) => {
+
+   //Tots els app.use son per definir tots els middlewares que s'utilitzaran
    app.use(morgan('dev'))
    const storage = multer.diskStorage({
       destination: path.join(__dirname, 'www/images/uploads'),
@@ -54,13 +71,15 @@ module.exports = (app) => {
    })
 
 
-
+   // funció que dirà si un usuari està o no autenticat
    function isAuthenticated(req, res, next) {
       if (req.isAuthenticated(req, res, next)) {
          return next()
       }
       res.redirect('/login')
    }
+
+   //Utilitzarem passport per fer tot el tema de login, register i autentificacio
 
    passport.serializeUser(function (user, done) {
       if (user instanceof User) {
@@ -87,6 +106,7 @@ module.exports = (app) => {
 
    })
 
+   //autentificacio d'usuaris
    passport.use('local-signin', new PassportLocal({
       usernameField: 'email',
       passwordField: 'password',
@@ -104,6 +124,7 @@ module.exports = (app) => {
    }))
 
 
+   //registre d'usuaris
 
    passport.use('local-signup', new PassportLocal({
       usernameField: 'username',
@@ -128,12 +149,10 @@ module.exports = (app) => {
             await newUser.save()
             done(null, newUser)
          }
-
       }
-
    }))
 
-
+   //autentificacio de companyies
    passport.use('local-signup-company', new PassportLocal({
       usernameField: 'name',
       passwordField: 'email',
@@ -163,6 +182,7 @@ module.exports = (app) => {
       }
    }))
 
+   //registre de companyies
    passport.use('local-signin-company', new PassportLocal({
       usernameField: 'email2',
       passwordField: 'password2',
@@ -179,7 +199,7 @@ module.exports = (app) => {
       done(null, company)
    }))
 
-
+   //definir el directori de les views
    app.set('view engine', 'ejs');
    app.set('views', __dirname + '/www/views')
 
@@ -191,6 +211,7 @@ module.exports = (app) => {
       passReqToCallback: true
    }))
 
+   //endpoint post per iniciar sessio amb un usuari
 
    app.post('/login/user', passport.authenticate('local-signin', {
       successRedirect: "/",
@@ -198,12 +219,14 @@ module.exports = (app) => {
       passReqToCallback: true
    }))
 
+   //endpoint post per iniciar sessio amb una companyia
    app.post('/login/company', passport.authenticate('local-signin-company', {
       successRedirect: "/company/home",
       failureRedirect: "/login/company",
       passReqToCallback: true
    }))
 
+   //endpoint post per registrar els usuaris
    app.post('/register/company', passport.authenticate('local-signup-company', {
       successRedirect: "/",
       failureRedirect: "/register/company",
@@ -212,7 +235,7 @@ module.exports = (app) => {
 
 
 
-
+   //endpoint post per crear els usuaris
    app.post('/publication/create', async (req, res) => {
       const publication = new Publication(req.body);
 
@@ -227,7 +250,7 @@ module.exports = (app) => {
    });
 
 
-
+   //endpoint post per crear les inscripcions
    app.post('/inscription/create', async (req, res) => {
       const inscription = new Inscription(req.body);
 
@@ -244,24 +267,27 @@ module.exports = (app) => {
 
 
 
-
+   //endpoint get per obtenir la pagina principal
    app.get('/', async (req, res) => {
 
       res.render("user/home", { titulo: "Home" })
    });
 
+   //endpoint get per obtenir la pagina per iniciar sessio com usuari o com empresa
    app.get('/login', async (req, res) => {
 
       res.render("login", { titulo: "Login" })
    });
 
 
+   //endpoint get per obtenir el forumlari per fer login amb un usuari
 
    app.get('/login/user', async (req, res) => {
 
       res.render("loginuser", { titulo: "Login" })
    });
 
+   //endpoint get per obtenir el forumlari per fer login amb una empresa
 
    app.get('/login/company', async (req, res) => {
 
@@ -270,10 +296,14 @@ module.exports = (app) => {
 
 
 
+   //endpoint get per obtenir la pagina on podrem decirir registrar-nos com usuari o empresa
 
    app.get('/register', async (req, res, next) => {
       res.render("register", { titulo: "Register" })
    });
+
+
+   //endpoint get que borrarà la sessió actual
 
    app.get("/logout", (req, res, next) => {
 
@@ -288,11 +318,8 @@ module.exports = (app) => {
 
    })
 
-   app.get('/register/educativecenter', async (req, res) => {
 
-      res.render("educativecenter/registerForm", { titulo: "Register educative center" })
-   });
-
+   //endpoint get per obtenir el forumlari per registrar companyies
 
    app.get('/register/company', async (req, res) => {
 
@@ -300,12 +327,14 @@ module.exports = (app) => {
    });
 
 
+   //endpoint get per obtenir el forumlari per regitrar usuaris
 
    app.get('/register/user', async (req, res) => {
 
       res.render("user/userForm", { titulo: "Register User" })
    });
 
+   //endpoint get per obtenir la pagina principal de les companyies
 
    app.get('/company/home', isAuthenticated, async (req, res) => {
 
@@ -313,16 +342,8 @@ module.exports = (app) => {
       res.render("company/home", { titulo: "Home" })
    });
 
-   app.get('/user/idmax', async (req, res) => {
-      const user = await User.find().select("id").sort({ id: -1 }).limit(1);
 
-      try {
-         res.status(200).send(user);
-      } catch (error) {
-         res.status(500).send(error);
-      }
-   });
-
+   //endpoint get per obtenir el perfil dels usuaris
 
    app.get('/profile', isAuthenticated, async (req, res) => {
 
@@ -331,11 +352,14 @@ module.exports = (app) => {
       res.render("user/profile", { titulo: "profile", image: image })
    })
 
+   //endpoint get per obtenir el forumlari per pujar l'imatge
+
    app.get('/upload', isAuthenticated, (req, res) => {
       res.render("imageForm", { titulo: "Image upload" })
    })
 
 
+   //endpoint get per obtenir les publicacions
 
    app.get('/publication/show', async (req, res) => {
 
@@ -348,6 +372,7 @@ module.exports = (app) => {
       }
    });
 
+   //endpoint get per obtenir tots els usuaris
 
    app.get('/users', async (req, res) => {
 
@@ -360,6 +385,7 @@ module.exports = (app) => {
       }
    });
 
+   //endpoint get per obtenir totes les inscripcions
 
    app.get('/inscriptions', async (req, res) => {
 
@@ -375,6 +401,7 @@ module.exports = (app) => {
 
 
 
+   //endpoint get per obtenir les publicacions a traves de la seva id
 
 
    app.get('/publication/:_id', isAuthenticated, async (req, res) => {
@@ -387,6 +414,7 @@ module.exports = (app) => {
 
 
 
+   //endpoint get per obtenir l'objecte de la companyia a traves de la id
 
    app.get('/company/show/:id', async (req, res) => {
 
@@ -400,6 +428,7 @@ module.exports = (app) => {
       }
    });
 
+   //endpoint post per pujar les imatges
 
    app.post('/upload', isAuthenticated, async (req, res) => {
       const image = new Image()
@@ -419,16 +448,21 @@ module.exports = (app) => {
       res.redirect("/image/" + image.id)
    })
 
+   //endpoint get per obtenir l'imatge atraves de l'id
+
    app.get('/image/:id', isAuthenticated, async (req, res) => {
       const { id } = req.params
       const image = await Image.findById(id)
       res.render('profileImage', { image: image, titulo: "profileImage" })
    })
+   //endpoint get per veure totes les fotos pujades
 
    app.get('/verfoto', isAuthenticated, async (req, res) => {
       const images = await Image.find()
       res.render("verfoto", { images })
    })
+
+   //endpoint get per borrar les imatges
 
    app.get('/image/:id/delete', isAuthenticated, async (req, res) => {
       const { id } = req.params
@@ -440,12 +474,14 @@ module.exports = (app) => {
       }
    })
 
+   //endpoint get per obtenir el forumlari per cambiar la contrasenya
 
    app.get('/password/:_id', isAuthenticated, async (req, res) => {
       const id = req.params._id;
       res.render("./user/changePassword", { titulo: "Cambiar contraseña", _id: id })
    });
 
+   //endpoint post per obtenir les dades del form i cambiar la contrasenya
 
    app.post('/password/:_id', async (req, res) => {
       const userId = req.params._id;
@@ -502,17 +538,30 @@ module.exports = (app) => {
 
    app.post('/deleteuser/:_id', isAuthenticated, async (req, res) => {
       const id = req.params._id;
-      const user = await User.findOne({ _id: id })
+      const user = await User.findOne({ _id: id });
+      const company = await Company.findOne({ _id: id });
+      const publi = await Publication.find({companyId:id})
+      
+      
+     
       if (user) {
-         await User.deleteOne(user)
-         res.redirect('/login');
-      } else {
-         const company = await Company.findOne({ _id: id })
+        console.log(user)
+        await User.deleteOne(user)
+        res.redirect("/login")
+      }else{
+         publi.forEach(async (element) =>{
+            if (element.companyId == company._id) {
+               console.log(element)
+               await Publication.deleteOne(element)
+            }
+         })
          await Company.deleteOne(company)
-         res.redirect('/login');
+         res.redirect("/login")
       }
 
    });
+
+
 
 
 
@@ -548,7 +597,7 @@ module.exports = (app) => {
       const id = req.params._id
       const usr = await User.findOne({ _id: ObjectId(id) })
 
-      res.render("nuevoPerfil",{titulo: "Perfil", user:usr})
+      res.render("nuevoPerfil", { titulo: "Perfil", user: usr })
    });
 
 

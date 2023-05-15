@@ -1,220 +1,337 @@
 <%- include ("../templates/cabecera") %>
 
   </head>
-  <body>
-  <section >
-    <%- include ("../templates/menu") %>
-    <div class="container py-5">
-     
-      <% if (user != undefined && user.type == "user") { %>
 
-      <!-- Button trigger modal -->
+  <body onload="main()">
+    <section>
+      <%- include ("../templates/menu") %>
+        <div class="container py-5">
 
+          <% if (user !=undefined && user.type=="user" ) { %>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      
-      <div class="modal-body">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Estàs segur de que vols borrar l'usuari <%= user.username%>?</h1>
-        
-      </div>
-      <div class="modal-footer d-flex justify-content-center">
-        <form action="/deleteuser/<%=user._id%>" method="post">
-        <button type="submit" class="btn btn-success">Yes</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-      </form>
-      </div>
-    </div>
-  </div>
-</div>
+            <!-- Button trigger modal -->
 
 
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
 
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="card mb-4">
-            <div class="card-body text-center" style="min-height: 340px;">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3"><%= user.username %></h5>
-              
-              <p class="text-muted mb-4">Desenvolupador Web</p>
-              
-              <div class="d-flex justify-content-center mb-2">
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  Borrar usuario
-                </button>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="col-lg-8">
-          <div class="card mb-4">
-            <div class="card-body" style="min-height: 340px;">
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Nombre completo</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0"><%= user.username %></p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Email</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0"><%= user.email %></p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Teléfono</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0"><%= user.phone %></p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Contraseña</p>
-                </div>
-                <div class="col-sm-9">
-                  <span class="text-muted mb-0"><%= user.password %></span>&nbsp; <a href="/password/<%= user._id %>"><span><button class="btn btn-secondary">Cambiar</button></span></a>
-                  
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Estudios</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0"><%= user.studies %></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      <% } else { %>
+                  <div class="modal-body">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Estàs segur de que vols borrar l'usuari <%=
+                        user.username%>?</h1>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card mb-4">
-              <div class="card-body text-center" style="min-height: 380px;">
-                <br><br>
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                  class="rounded-circle img-fluid" style="width: 150px;">
-                <h5 class="my-3"><%= user.name %></h5>
-                
-                
-                <div class="d-flex justify-content-center mb-2">
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar usuario</button>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-          <div class="col-lg-8">
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Nombre de la compañia</p>
                   </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.name %></p>
+                  <div class="modal-footer d-flex justify-content-center">
+                    <form action="/deleteuser/<%=user._id%>" method="post">
+                      <button type="submit" class="btn btn-success">Yes</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                    </form>
                   </div>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Correo electrónico</p>
+              </div>
+            </div>
+
+
+
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card mb-4">
+                  <div class="card-body text-center" style="min-height: 340px;">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                      class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3">
+                      <%= user.username %>
+                    </h5>
+
+                    <p class="text-muted mb-4">Desenvolupador Web</p>
+
+                    <div class="d-flex justify-content-center mb-2">
+                      <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Borrar usuario
+                      </button>
+                    </div>
                   </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.email %></p>
+                </div>
+
+              </div>
+              <div class="col-lg-8">
+                <div class="card mb-4">
+                  <div class="card-body" style="min-height: 340px;">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Nombre completo</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          <%= user.username %>
+                        </p>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Email</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          <%= user.email %>
+                        </p>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Teléfono</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          <%= user.phone %>
+                        </p>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Contraseña</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <span class="text-muted mb-0">
+                          <%= user.password %>
+                        </span>&nbsp; <a href="/password/<%= user._id %>"><span><button
+                              class="btn btn-secondary">Cambiar</button></span></a>
+
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0">Estudios</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">
+                          <%= user.studies %>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-lg-4">
+                <div class="card mb-4">
+                  <div class="card-body text-center" style="min-height: 340px;">
+
+                    <h5 class="my-3">Inscripciones</h5>
                     
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Telefono</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.numeroTelefono %></p>
-                  </div>
-                </div>
-                <hr>
-                
-                
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Calle</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.calle %></p>
-                  </div>
-                </div>
-                <hr>
-                
-                
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Municipio</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.municipio %></p>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Contraseña</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0"><%= user.password %></p></span>&nbsp; <a href="/password/<%= user._id %>"><span><button class="btn btn-secondary">Cambiar</button></span></a>
+                    <div id="users" class="container">
+
+                    </div>
+
+
                   </div>
                 </div>
               </div>
-            </div>
-            
-          </div>
-        </div>
-        <% } %>
-    </div>
-  </section>
 
- 
+
+              <% } else { %>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModal2Label" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <form action="/deleteuser/<%=user._id%>" method="post">
+                          <button id="bo" type="submit" class="btn btn-primary">Yes</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        </form>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="card mb-4">
+                      <div class="card-body text-center" style="min-height: 380px;">
+                        <br><br>
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                          alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3">
+                          <%= user.name %>
+                        </h5>
+
+
+                        <div class="d-flex justify-content-center mb-2">
+                          <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#exampleModal2">Borrar usuario</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Nombre de la compañia</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">
+                              <%= user.name %>
+                            </p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Correo electrónico</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">
+                              <%= user.email %>
+                            </p>
+
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Telefono</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">
+                              <%= user.numeroTelefono %>
+                            </p>
+                          </div>
+                        </div>
+                        <hr>
+
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Calle</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">
+                              <%= user.calle %>
+                            </p>
+                          </div>
+                        </div>
+                        <hr>
+
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Municipio</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">
+                              <%= user.municipio %>
+                            </p>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <p class="mb-0">Contraseña</p>
+                          </div>
+                          <div class="col-sm-9">
+                            <p class="text-muted mb-0">
+                              <%= user.password %>
+                            </p></span>&nbsp; <a href="/password/<%= user._id %>"><span><button
+                                  class="btn btn-secondary">Cambiar</button></span></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <% } %>
+            </div>
+    </section>
+
+    <script>
+      
+      async function main() {
+
+
+
+        let table = document.createElement('table')
+        table.className = "table"
+
+        let thead = document.createElement('thead')
+        let tr = document.createElement('tr')
+        tr.innerHTML = "<th> <strong> Nombre </strong> </th> <th> <strong> caducidad </strong></th>   <th>Acciones </th>"
+        thead.appendChild(tr)
+        table.appendChild(thead)
+
+        let tbody = document.createElement('tbody');
+        table.appendChild(tbody)
+       
+        
+        let publi = []
+        publi = await retPubli()
+
+        let insc = []
+        insc = await retInscript()
+
+        publi.forEach(element2 =>{
+          insc.forEach(element => {
+            if (element.userId == "<%= user._id %>") {
+              if(element.publicationId == element2._id){
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                const caduca = document.createElement('td');
+                const btn3 = document.createElement('a');
+                btn3.href = "publication/"+ element2._id
+                btn3.type = "button"
+                btn3.className = "btn btn-success"
+                btn3.style.backgroundColor = "#0dcaf0"
+                btn3.innerHTML = "Ver publicación"
+                caduca.textContent = element2.caducidad
+                nameCell.textContent = element2.titulo;
+                row.appendChild(nameCell);
+                row.appendChild(caduca)
+                row.appendChild(btn3)
+                tbody.appendChild(document.createElement("br"))
+                tbody.appendChild(row)
+              }
+            }
+          })
+        })
+        
+        document.getElementById('users').appendChild(table)
+
+        async function retPubli() {
+          const response = await fetch('http://localhost:3000/publication/show');
+          const data = await response.json();
+          return data;
+        }
+
+        async function retInscript() {
+          const response = await fetch('http://localhost:3000/inscriptions');
+          const data = await response.json();
+          return data;
+        }
+      }
+    </script>
   </body>
+
   </html>

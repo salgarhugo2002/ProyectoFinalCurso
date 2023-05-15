@@ -51,6 +51,8 @@
 
           </div>
 
+          <div id="alerta"></div>
+
         </div>
         <% } else if (user !=undefined && user.type=="company" ) { %>
 
@@ -76,17 +78,18 @@
               <div class=""><strong>Caduca:</strong></div>
               <div class="" id="caduca"></div>
             </div>
-            
+
             <div id="inscr" class="d-flex justify-content-center mt-3">
 
             </div>
-            
+
             <div class="d-flex justify-content-center mt-3" id="botoncito">
-              
+
             </div>
+
           </div>
           <% } %>
-          
+
             <span class="container text-center" id="texto"></span>
             <div class="d-flex" id="users" style="align-items: center; justify-content: center;"></div>
 
@@ -130,20 +133,21 @@
       let bol = false;
       inscripts.forEach(element => {
 
-        if(element.publicationId == publi._id){
-          if (element.userId == "<%= user._id %>" ){
+        if (element.publicationId == publi._id) {
+          if (element.userId == "<%= user._id %>") {
             bol = true;
           }
         }
-        
+
 
       });
 
       if (bol) {
-       
+
         let ap = document.createElement('p')
         ap.style.color = "red"
         ap.innerHTML = "<strong> Ya estás inscrito </strong>"
+
         document.querySelector('#inscr').appendChild(ap)
       } else if ('true' == '<%= user.type != "company" %>') {
         const boton = document.createElement('button')
@@ -175,11 +179,11 @@
           document.getElementById('botoncito').appendChild(form)
           form.appendChild(btn)
 
-          
+
 
           let table = document.createElement('table')
           table.className = "table"
-          
+
           let thead = document.createElement('thead')
           let tr = document.createElement('tr')
           tr.innerHTML = "<th> <strong> Nombre </strong> </th> <th> <strong> Correo </strong></th> <th> </th>  <th> </th> <th>Acciones </th>"
@@ -227,12 +231,13 @@
                 form.action = "/inscriptions/delete/" + element2._id + "/" + publi._id
                 form.method = "post"
 
-                
+
 
                 const butn3 = document.createElement('a')
                 butn3.className = "btn btn-info"
                 butn3.innerHTML = "Ver perfil"
-                butn3.href = "/profile/"+ element2.userId
+                butn3.href = "/profile/" + element2.userId
+                butn3.style.marginLeft = "5px"
 
                 const butn2 = document.createElement('button')
                 butn2.className = "btn btn-danger"
@@ -300,7 +305,7 @@
         })
 
 
-      alert("Se ha inscrito correctamente")
+      location.reload()
     }
 
 
